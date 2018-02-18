@@ -93,3 +93,4 @@ df.ix[0:10000,'text']
 # name and position
 df.loc[1:3,'text']
 df.iloc[1:4,:2]
+
