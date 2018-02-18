@@ -14,6 +14,6 @@
     3.	For time part:
         Not yet discussed.
     4.	For city part: create a one-hot matrix
-# Part three: (Model selection)
+# Part3: (Model selection)
     SVM, Random Forest, XGBoost,(sklearn) gbdt( gradient boost decision tree) guide, LSTM.
-# Part four: parameters tuning and model ensemble
+# Part4: parameters tuning and model ensemble
