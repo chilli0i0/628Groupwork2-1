@@ -33,15 +33,15 @@ text.to_csv('reviews.txt',index=False,header=True)
 all_text=pd.read_csv("reviews.txt")
 # google translate
 import goslate
-import concurrent.futures
-with open('reviews.txt', 'rb') as f:
+with open('reviews_other_lan.txt', 'rb') as f:
     novel_text = f.read()
 gs = goslate.Goslate()
-reviews=gs.translate(novel_text,"en")
+reviews_other_lan=gs.translate(novel_text,"en")
 #other language detection
 from langdetect import detect
 from langdetect import detect_langs 
 detect_langs("Otec matka syn.") 
+#other language column number
 sum=0
 other_lan=[]
 for i in range(len(new_data)):
@@ -49,12 +49,17 @@ for i in range(len(new_data)):
         print(i)
         sum+=1
         other_lan.append(i)
-
-
-
-
-
-
+other_lan_pd=pd.Series(other_lan)
+other_lan_pd.to_csv('other_language_columns.csv',header=False,index=False)
+# other_lan=1673
+other_lan_trans=[]
+# read the other_language_columns.csv into other_lan
+for i in range(len(other_lan)):
+    gs = goslate.Goslate()
+    fake=new_data.iloc[other_lan[i],2]
+    result=gs.translate(fake, 'en')
+    print(i)
+    other_lan_trans.append(result)
 
 # delete abonormal signs and simbols
 import re
