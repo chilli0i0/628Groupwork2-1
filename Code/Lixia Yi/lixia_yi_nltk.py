@@ -2,23 +2,15 @@
 # TODO: and test it on a sampled testset
 #
 
-
-import pandas as pd
-import concurrent.futures
-
-df = pd.read_csv("/Users/yilixia/Downloads/train_data.csv")
-df.ix[:, 4].value_counts()
-cities = ["Edinburgh", "Karlsruhe", "Montreal", "Waterloo", "Pittsburgh", "Charlotte", "Urbana-Champaign", "Phoenix",
-          "Las Vegas", "Madison", "Cleveland"]
-colnames = df.columns.values.tolist()
-new_data = pd.DataFrame(columns=[colnames])
-for i in cities:
-    new_data = pd.concat([new_data, df[df["city"] == i]], axis=1)
-
 # read data
 import pandas as pd
+from rake_nltk import Rake
+import nltk
+import string
+import collections
+import random
 
-df = pd.read_csv("train_data.csv")
+df = pd.read_csv("/Users/yilixia/Downloads/train_data.csv")
 cities = ["Edinburgh", "Karlsruhe", "Montreal", "Waterloo", "Pittsburgh", "Charlotte", "Urbana-Champaign", "Phoenix",
           "Las Vegas", "Madison", "Cleveland"]
 colnames = df.columns.values.tolist()
@@ -34,10 +26,6 @@ for i in cities:
 
 
 # reviews clean and key words selection
-from rake_nltk import Rake
-import nltk
-import string
-
 stopset = set(nltk.corpus.stopwords.words('english'))
 stopset.add("us")
 stopset.add("would")
@@ -46,6 +34,7 @@ stopset.add("get")
 stopset.add("also")
 stopset.add("got")
 stopset.add("every")
+
 
 r = Rake(stopset, string.punctuation + "?")
 all_keywords = list()
@@ -57,7 +46,6 @@ for i in range(100):
     all_keywords.append([phrases[i] for i in range(len(phrases)) if scores[i][0] > 1])
     all_keywords_split.append([nltk.word_tokenize(phrases[i]) for i in range(len(phrases)) if scores[i][0] > 1])
 
-import collections
 
 all_keywords_each = list()
 for i in all_keywords_split:
@@ -67,7 +55,7 @@ for i in all_keywords_split:
 
 collections.Counter(all_keywords_each).most_common()[0:99]
 
-emotion_words = pd.read_csv("vader_lexicon.txt", sep="\t", header=None)
+emotion_words = pd.read_csv("Code/HanmoLi/vader_lexicon.txt", sep="\t", header=None)
 
 emotion_words_list = emotion_words[0].tolist()
 emotion_scores_list = emotion_words[1].tolist()
