@@ -34,7 +34,7 @@ stopset.add("also")
 stopset.add("got")
 stopset.add("every")
 
-r = Rake(stopset,string.punctuation+"?")
+r = Rake(stopset,string.punctuation)
 all_keywords = list()
 all_keywords_split = list()
 for i in range(100):
@@ -52,6 +52,14 @@ for  i in all_keywords_split:
         for l in range(len(j)):
             all_keywords_each.append(j[l])
             
+keywords_in_each_review = list()
+for  i in all_keywords_split:
+    tmp = list()
+    for j in i:
+        for l in range(len(j)):
+            tmp.append(j[l])
+    keywords_in_each_review.append(tmp)
+            
 collections.Counter(all_keywords_each).most_common()[0:99]
 
 emotion_words = pd.read_csv("vader_lexicon.txt",sep = "\t",header=None)
@@ -61,3 +69,12 @@ emotion_scores_list = emotion_words[1].tolist()
 
 emotion_words_times = [all_keywords_each.count(i) for i in emotion_words_list]
 emotion_words_selected = [emotion_words_list[i] for i in range(len(emotion_words_list)) if emotion_words_times[i]>0]
+
+emotion_words_in_reviews = list()
+for j in range(len(keywords_in_each_review)):
+    tmp = list()
+    for i in emotion_words_selected:
+        tmp.append(keywords_in_each_review[j].count(i))
+    emotion_words_in_reviews.append(("reviews"+str(j),tmp))
+
+emotion_words_in_reviews_df = pd.DataFrame.from_items(emotion_words_in_reviews)
