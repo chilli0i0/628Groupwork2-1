@@ -29,3 +29,6 @@ for i in range(len(df)):
         other_lan.append(i)
     else:
         print(i)
+        
+#result.to_csv('name.csv',index=False)
+#最后输出数据的翻译过的部分就可以了 每个人40,0000的部分，输出成csv 文件名写成 translation_姓名.csv
