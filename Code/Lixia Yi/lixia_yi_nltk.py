@@ -105,7 +105,7 @@ for i in range(sample_size):
 sample_stars = np.asarray(df.loc[sample, 'stars'])
 compound = np.asarray(compound)
 # do compound and stars have a (linear) relationship?
-# plot:
+# plot box-plot:
 data = []
 for i in range(1, 6):
     data.append(compound[sample_stars == i])

@@ -29,3 +29,28 @@ Reference:
 ##### Implementing vaderSentiment:
 
 I am meeting problems in linear regression...
+
+
+### Feb 25:
+**"VADER-Sentiment-Analysis"** continue: Made a box-plot to demonstrate how well the sentiment scores are related to stars.
+It was implemented on 10000 rows of data.
+
+Refer: 
+* `Code/Lixia/vaderSentiment_stars.png`
+* `lixia_yi_nltk.py`
+ 
+ 
+**Read HML's and QZR's work**: Read their code, understand what they did and try to improve on their basis or try new ways.
+
+Hanmo-data_clean.py:
+* *use nlty to remove stopwords first* -- this is just a test fragment,
+* *extract stars in the reviews* -- since some of the reviews have scored the restaurants directly in their text, he attempts to extract the scores from the first 1000 reviews.
+It turns out that only 6 reviews have scored directly in the text. The scores given, however, mostly are ending with a .5 and could be rounded either up and down.
+It could be used as a checker if scores (e.g. predicted 2 when text says 3.5) fall to far away but cannot really be regarded as solid prediction.
+* *extract key words from sentences* -- Extract keywords from the first 1000 rows.
+* *extract emotion words from keywords* -- From the keywords extracted in the previous part, extract the emotion words.
+The emotion words are based on the vaderSentiment lexicon. 
+
+Refer:
+* `Code/HanmoLi/data_clean.py`
+* `Code/word2vec.py`
