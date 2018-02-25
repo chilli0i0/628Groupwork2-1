@@ -13,6 +13,7 @@ import random
 import nltk.sentiment
 from sklearn import linear_model, metrics, datasets
 import numpy as np
+import matplotlib.pyplot as plt
 
 df = pd.read_csv("/Users/yilixia/Downloads/train_data.csv")
 cities = ["Edinburgh", "Karlsruhe", "Montreal", "Waterloo", "Pittsburgh", "Charlotte", "Urbana-Champaign", "Phoenix",
@@ -72,6 +73,7 @@ for i in cities:
 
 sentim_Analyzer = nltk.sentiment.SentimentIntensityAnalyzer()
 
+#####
 # sample code
 lines_list = nltk.tokenize.sent_tokenize(df.loc[1, 'text'])
 
@@ -81,11 +83,11 @@ for sentence in lines_list:
     for k in sorted(ss):
         print('{0}: {1}, '.format(k, ss[k]), end='')
         print()
-
+#####
 #
 random.seed(8102)
 
-sample_size = 1000
+sample_size = 10000
 sample = random.sample(range(new_data.shape[0]), sample_size)
 
 compound = []
@@ -102,11 +104,25 @@ for i in range(sample_size):
 
 sample_stars = np.asarray(df.loc[sample, 'stars'])
 compound = np.asarray(compound)
+# do compound and stars have a (linear) relationship?
+# plot:
+data = []
+for i in range(1, 6):
+    data.append(compound[sample_stars == i])
 
+plt.boxplot(data)
+plt.title("Sentiment Scores against Stars")
+plt.ylabel("Sentiment")
+plt.xlabel("Stars")
+plt.show()
+
+# regression
+# errors appear, need to fix!!
 regr = linear_model.LinearRegression()
 
-regr.fit(compound, sample_stars)
+regr.fit(compound, sample_stars)  # TODO: cannot fit it, fix the problem!
 
+# test on new sample set
 new_sample = random.sample(range(new_data.shape[0]), 100)
 
 compound = []
