@@ -34,3 +34,26 @@ df.loc[index[4], 'text']
 
 emotion_words = pd.read_csv("Code/HanmoLi/vader_lexicon.txt",sep = "\t",header=None)
 
+
+
+
+# translation.py
+# run it in terminal
+
+import pandas as pd
+df = pd.read_csv("/Users/yilixia/Downloads/train_data.csv")
+from googletrans import Translator
+from langdetect import detect
+chinese=[]
+other_lan=[]
+#主要需要改一下这个range 在后面加数字就行
+for i in range(400001,800000):
+    if detect(df.iloc[i,2])=='ko' or detect(df.iloc[i,2])=='zh-tw':
+        chinese.append(i)
+    elif detect(df.iloc[i,2])!='en':
+        translator = Translator()
+        fake2=translator.translate(df.iloc[i,2])
+        df.iloc[i,2]=fake2.text
+        other_lan.append(i)
+    else:
+        print(i)

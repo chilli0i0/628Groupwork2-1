@@ -50,7 +50,21 @@ It could be used as a checker if scores (e.g. predicted 2 when text says 3.5) fa
 * *extract key words from sentences* -- Extract keywords from the first 1000 rows.
 * *extract emotion words from keywords* -- From the keywords extracted in the previous part, extract the emotion words.
 The emotion words are based on the vaderSentiment lexicon. 
+* *calculate four features* -- 
+    * def calculate_relative_score(keywords_in_each_review, ith_review, emotion_word)
+    * def calculate_identital_score(emotion_word, emotion_related_scores):
+    * def calculate_sent_posi_score(keywords_in_each_review, ith_sentence, positive_words_selected, emotion_related_scores):
+    * def calculate_sent_negative_score(keywords_in_each_review, ith_sentence, negative_words_selected, emotion_related_scores):
+
+
+
 
 Refer:
 * `Code/HanmoLi/data_clean.py`
 * `Code/word2vec.py`
+
+**Translate**: Since it is slow to let one person to translate all text, we separated the text into 4 parts, each one of us runs one part.
+Doing it in the terminal.
+
+//result.to_csv('name.csv',index=False)
+ 
