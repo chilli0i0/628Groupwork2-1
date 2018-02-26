@@ -57,8 +57,6 @@ The emotion words are based on the vaderSentiment lexicon.
     * def calculate_sent_negative_score(keywords_in_each_review, ith_sentence, negative_words_selected, emotion_related_scores):
 
 
-
-
 Refer:
 * `Code/HanmoLi/data_clean.py`
 * `Code/word2vec.py`
@@ -66,5 +64,23 @@ Refer:
 **Translate**: Since it is slow to let one person to translate all text, we separated the text into 4 parts, each one of us runs one part.
 Doing it in the terminal.
 
+Stopped at 741038: 'http://jentalkstoomuch.com/2016/08/portland-variety-insulting-people-one-pregnant-woman-at-a-time/'
+which links to a site with lots of lots of words and is rate with 1 star, still could it be deduced from the link itself but we should be aware of noise like this.
 //result.to_csv('name.csv',index=False)
+ 
+ 
+### Feb 26
+**QZR's work** Regarding line 76
+```
+for tag, count in zip(vocab, dist):
+    print (count, tag)
+```
+
+It shows that there are words with the same stems (similar meaning, different forms) regarded as different factors. This could be a suggestion for improvement.
+
+* Try Lexicon Normalization
+    
+Furthermore, there are definitely languages other than English in the text, but this should be solved after we've translated all the text information.
+But again, Chinese and Korean were not translated (if I'm not mistaken) and we should be aware of it.
+ 
  
