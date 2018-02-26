@@ -2,12 +2,10 @@
 
 import re
 import pandas as pd
-
-df = pd.read_csv("train_data.csv")
 # import nltk
 from nltk.corpus import stopwords
 
-
+df = pd.read_csv("/Users/yilixia/Downloads/lyi_small.csv")
 ###########################################METHOD1###############################
 def review_to_words(raw_review):
     # Function to convert a raw review to a string of words
@@ -115,4 +113,4 @@ for i in range(500):
     if result[i] == true_test.iloc[i]:
         fake_sum += 1
 accuracy = fake_sum / 500
-accuracy  
+accuracy

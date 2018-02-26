@@ -70,7 +70,9 @@ which links to a site with lots of lots of words and is rate with 1 star, still 
  
  
 ### Feb 26
-**QZR's work** Regarding line 76
+**QZR's work**:
+ 
+Regarding the output fo line 76-77:
 ```
 for tag, count in zip(vocab, dist):
     print (count, tag)
@@ -79,8 +81,28 @@ for tag, count in zip(vocab, dist):
 It shows that there are words with the same stems (similar meaning, different forms) regarded as different factors. This could be a suggestion for improvement.
 
 * Try Lexicon Normalization
+* Generalization
     
 Furthermore, there are definitely languages other than English in the text, but this should be solved after we've translated all the text information.
 But again, Chinese and Korean were not translated (if I'm not mistaken) and we should be aware of it.
  
+**Other ideas**: 
+* t-SNE clustering
+* Neural Network (if possible)
+
+**Class Notes**:
+
+* Some stopwords may be informative! Don't delete them all.
+
+* His, her, he, she tend to be negative informative.
+
+* It could be possible that some dishes/words are more informative than others, however, I doubt whether the less informative words will still be not informative after doing a split (in a decision tree for example)
+
+* "Yum!"
+
+* Combinations of foods might be an interesting indicator for stars.
+
+* How should we do interaction? Shouldn't it be integrated in a decision tree?
+
+* Sentiment words definitely have a influence on stars...of course ("affordable")
  
