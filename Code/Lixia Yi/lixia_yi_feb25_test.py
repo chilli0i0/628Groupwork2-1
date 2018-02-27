@@ -1,5 +1,7 @@
 # Hanmo/data_clean.py:
-
+import numpy as np
+import  matplotlib.pyplot as plt
+import ggplot
 # extract stars in the reviews:
 stars = list()
 index = []
@@ -81,3 +83,26 @@ for i in range(741039, 800000):
         print(i)
 
 df.iloc[400001:800000, :].to_csv("/Users/yilixia/Downloads/lyi_small.csv")
+
+# Translate Chinese reviews by hand...
+chinese = [413847, 416008, 460112, 464195, 522060, 539005, 547678, 553796, 557479, 604962, 678612, 682042, 703100,
+           722513, 740363, 745057, 789778]
+chinese = [x - 400001 for x in chinese]
+
+i = 16
+print(df.loc[chinese[i], 'stars'])
+print(df.loc[chinese[i], 'text'])
+
+df.loc[chinese[i], 'text'] = "Mom patties \
+beef patty \
+Fried noodles \
+Paste cavity"
+
+other_lan = pd.read_csv("/Users/yilixia/Downloads/lyi_other_lan.txt", sep=", ", header=None)  # len = 3252
+other_lan = [x - 400001 for x in other_lan.values]
+other_lan = other_lan[0]
+other_stars = df.loc[other_lan, 'stars']
+
+
+
+

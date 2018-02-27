@@ -4,10 +4,11 @@ import re
 import pandas as pd
 # import nltk
 from nltk.corpus import stopwords
+import nltk.sentiment
 
 df = pd.read_csv("/Users/yilixia/Downloads/lyi_small.csv")
 ###########################################METHOD1###############################
-def review_to_words(raw_review):
+def review_to_words(raw_review, lexicon):
     # Function to convert a raw review to a string of words
     # The input is a single string (a raw movie review), and
     # the output is a single string (a preprocessed movie review)

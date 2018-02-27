@@ -87,6 +87,10 @@ Furthermore, there are definitely languages other than English in the text, but 
 But again, Chinese and Korean were not translated (if I'm not mistaken) and we should be aware of it.
  
 **Other ideas**: 
+
+Our problem isn't about the models but about the data cleaning, that is, did we extracted the all, or most, useful information from the text data?
+
+
 * t-SNE clustering
 * Neural Network (if possible)
 
@@ -105,4 +109,34 @@ But again, Chinese and Korean were not translated (if I'm not mistaken) and we s
 * How should we do interaction? Shouldn't it be integrated in a decision tree?
 
 * Sentiment words definitely have a influence on stars...of course ("affordable")
- 
+
+**Translation**:
+
+The non-english reviews are **heavily** biased!
+
+Translate the Chinese and Korean reviews manually:
+
+    This is Cantonese (Nightmare):
+    今日好勇敢，叫咗個藜麥餅(Farmers Market Stack)做早餐！藜麥係非常有益嘅食物，點有益法可以自己去google睇下，以前當飯咁食過幾次，好難食，好強草味，好艱難先食得完！今次再試係對個廚師有期望，碟嘢賣相一流，食落有啲似蘿蔔糕，煮法係意式，所以係意式蘿蔔糕！好味！又有益！正！
+    
+    Usage of words hard to translate:
+    在拉斯維加斯中所有的吃到飽裡面，小奴婢最喜歡這家店
+    雖然這家店沒有特別光鮮的外表，也沒有華麗的擺設
+    但是他有特別貼近人心的服務
+    小奴婢有注意到，這家店的服務員年紀都偏大(當然還是有年輕的妹妹)
+    而且各個感覺都是做很久的樣子
+    用餐的感覺很舒服，比較沒有那麼商業
+    剛好咱們那天是享用早餐，所以特別有感
+    其他時段因為價錢不一樣，所以食物小奴婢就不知道了
+    不過早餐來這邊吃小奴婢覺得很適合喔~~!!
+    雖然說是早餐，但是還是有牛排的XDDD
+    更別說是其他熟食了!
+    不過早餐該出現的食物這邊也沒有少
+    像是麵包、優格、麥片等等的喔~
+    
+    "小奴婢--small slave..."
+    
+    Extremly uninformative:
+    潮州魚蛋粉!
+    Chaozhou fish meal!
+    (4 Star)
