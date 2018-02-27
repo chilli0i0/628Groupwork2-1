@@ -148,3 +148,9 @@ Translate the Chinese and Korean reviews manually:
     Chaozhou fish meal!
     (4 Star)
 It may be deduced that the length of review is also important
+
+### Feb 27
+
+**Lexicon**: Extracted all the words with sentiment scores unequal to 0 (either pos or neg) as `SentiNetLexicon.txt`. Combined with the `vader_lexicon.txt`, they could be used as a reference for establishing the bag of words.
+
+ 

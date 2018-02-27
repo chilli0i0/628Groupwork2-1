@@ -1,4 +1,5 @@
 rm(list = ls())
+library(data.table)
 
 # Read the lines from the SentiWordNet Lexicon
 senti = readLines("/Users/yilixia/Downloads/SentiWordNet_3.0.0.txt")
@@ -27,8 +28,14 @@ for(i in 1:dim(new_senti)[1]){
   print(i)
 }
 
-grep(pattern = "([A-z]+)#\\d", new_senti[5,1])
-tmp_senti = regmatches(new_senti[5,1], gregexpr(pattern = "([A-z]+|([A-z]+-[A-z]+))", new_senti[5,1]))
+# grep(pattern = "([A-z]+)#\\d", new_senti[5,1])
+# tmp_senti = regmatches(new_senti[5,1], gregexpr(pattern = "([A-z]+|([A-z]+-[A-z]+))", new_senti[5,1]))
+
+index = duplicated(final_senti[,1])
+sum(index)
+final_senti2 = final_senti[-which(index),]
+  
+write.table(final_senti2, file = "/Users/yilixia/Downloads/SentiNetLexicon.txt", quote = F, row.names = F)
 
 
 
