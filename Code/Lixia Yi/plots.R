@@ -4,3 +4,4 @@ library(ggplot2)
 x = read.table("other_stars.txt", sep = "\t")
 stars = x[,2]
 
+qplot(data = stars, geom = 'histogram', binwidth = 1)

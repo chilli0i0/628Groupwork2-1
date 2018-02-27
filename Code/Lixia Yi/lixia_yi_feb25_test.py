@@ -89,19 +89,20 @@ chinese = [413847, 416008, 460112, 464195, 522060, 539005, 547678, 553796, 55747
            722513, 740363, 745057, 789778]
 chinese = [x - 400001 for x in chinese]
 
-i = 16
+i = 5
 print(df.loc[chinese[i], 'stars'])
 print(df.loc[chinese[i], 'text'])
 
-df.loc[chinese[i], 'text'] = "Mom patties \
-beef patty \
-Fried noodles \
-Paste cavity"
+df.loc[chinese[i], 'text'] = "Chaozhou fish meal!"
+
+df.to_csv("/Users/yilixia/Downloads/lyi_small.csv")
 
 other_lan = pd.read_csv("/Users/yilixia/Downloads/lyi_other_lan.txt", sep=", ", header=None)  # len = 3252
 other_lan = [x - 400001 for x in other_lan.values]
 other_lan = other_lan[0]
 other_stars = df.loc[other_lan, 'stars']
+
+
 
 
 

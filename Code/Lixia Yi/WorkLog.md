@@ -85,7 +85,11 @@ It shows that there are words with the same stems (similar meaning, different fo
     
 Furthermore, there are definitely languages other than English in the text, but this should be solved after we've translated all the text information.
 But again, Chinese and Korean were not translated (if I'm not mistaken) and we should be aware of it.
- 
+--Translated them manually in lyi.csv
+
+Some stopwords are definitely useful! Don't delete them all!
+
+
 **Other ideas**: 
 
 Our problem isn't about the models but about the data cleaning, that is, did we extracted the all, or most, useful information from the text data?
@@ -93,6 +97,9 @@ Our problem isn't about the models but about the data cleaning, that is, did we 
 
 * t-SNE clustering
 * Neural Network (if possible)
+
+Other_lang and Chinese could be used as a label itself. As I've noticed in my data set, Chinese reviews are highly biased (out of 16 only one of it is 1 star and the rest are 4 or 5 stars) so are the reviews in other languages.
+However, we should test is anyway.
 
 **Class Notes**:
 
@@ -140,3 +147,4 @@ Translate the Chinese and Korean reviews manually:
     潮州魚蛋粉!
     Chaozhou fish meal!
     (4 Star)
+It may be deduced that the length of review is also important

@@ -1,12 +1,23 @@
 # some attempts to improve the original word2vec.py work form RQZ.
 
 import re
+import random
 import pandas as pd
 # import nltk
 from nltk.corpus import stopwords
 import nltk.sentiment
+import nltk.sentiment.sentiment_analyzer as sentiment
 
 df = pd.read_csv("/Users/yilixia/Downloads/lyi_small.csv")
+
+random.seed(8102)
+
+sample_size = 10000
+sample = random.sample(range(df.shape[0]), sample_size)
+
+sentim_Analyzer = nltk.sentiment.SentimentIntensityAnalyzer()
+sentim_Analyzer.polarity_scores(df.loc[1,'text'])
+
 ###########################################METHOD1###############################
 def review_to_words(raw_review, lexicon):
     # Function to convert a raw review to a string of words
