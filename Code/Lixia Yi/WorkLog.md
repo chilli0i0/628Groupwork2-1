@@ -123,8 +123,12 @@ The non-english reviews are **heavily** biased!
 
 Translate the Chinese and Korean reviews manually:
 
+-1
+
     This is Cantonese (Nightmare):
     今日好勇敢，叫咗個藜麥餅(Farmers Market Stack)做早餐！藜麥係非常有益嘅食物，點有益法可以自己去google睇下，以前當飯咁食過幾次，好難食，好強草味，好艱難先食得完！今次再試係對個廚師有期望，碟嘢賣相一流，食落有啲似蘿蔔糕，煮法係意式，所以係意式蘿蔔糕！好味！又有益！正！
+    
+-2    
     
     Usage of words hard to translate:
     在拉斯維加斯中所有的吃到飽裡面，小奴婢最喜歡這家店
@@ -143,6 +147,8 @@ Translate the Chinese and Korean reviews manually:
     
     "小奴婢--small slave..."
     
+-3    
+    
     Extremly uninformative:
     潮州魚蛋粉!
     Chaozhou fish meal!
@@ -153,4 +159,20 @@ It may be deduced that the length of review is also important
 
 **Lexicon**: Extracted all the words with sentiment scores unequal to 0 (either pos or neg) as `SentiNetLexicon.txt`. Combined with the `vader_lexicon.txt`, they could be used as a reference for establishing the bag of words.
 
+**Other_Lang** as a info source is alluring, however, doing a chi-square test shows that they do not differ significantly in the stars.
+
+	Pearson's Chi-squared test
+
+    data:  stars and other_stars
+    X-squared = 20, df = 16, p-value = 0.2202
+    
+-----------a-n-o-t-h-e-r--t-e-s-t-----------
+	
+	Pearson's Chi-squared test
+
+    data:  stars and chinese_stars
+    X-squared = 15, df = 12, p-value = 0.2414
  
+**Vader** 
+
+Quote: "Manually creating and validating such lists of opinion-bearing features, while being among the most robust methods for generating reliable sentiment lexicons, is also one of the most time-consuming. For this reason, much of the applied research leveraging sentiment analysis relies heavily on preexisting manually constructed lexicons."
