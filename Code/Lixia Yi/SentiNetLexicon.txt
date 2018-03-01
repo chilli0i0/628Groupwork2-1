@@ -1,4 +1,3 @@
-Word Neg Pos
 able 0 0.125
 unable 0.75 0
 dissilient 0 0.25

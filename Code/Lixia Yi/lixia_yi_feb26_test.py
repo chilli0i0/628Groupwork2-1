@@ -58,7 +58,7 @@ tagged=np.array(df['tagged_texts'])
 print(tagged)
 pos=neg=obj=count=0
 
-# Error here!!
+# TODO: Error here!!
 for word, tag in tagged:
     ss_set = None
     if 'NN' in tag and swn.senti_synsets(word):
@@ -89,3 +89,14 @@ print(final_sentiment)
  <module>
  for word, tag in tagged_texts:
  ValueError: too many values to unpack (expected 2)
+
+
+###
+from nltk.stem.wordnet import WordNetLemmatizer
+lem = WordNetLemmatizer()
+
+new_text = df.loc[10086, 'text']
+
+new_text = [w for w in new_text.lower().split()]
+
+" ".join(lem.lemmatize(x, "v") for x in new_text)
