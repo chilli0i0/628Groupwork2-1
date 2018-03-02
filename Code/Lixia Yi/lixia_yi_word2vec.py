@@ -8,6 +8,19 @@ from nltk.corpus import stopwords
 import nltk.sentiment
 import nltk.sentiment.sentiment_analyzer as sentiment
 from nltk.stem.porter import PorterStemmer
+import math
+
+def mse_calculation(target,prediction):
+    prediction_restrain = list()
+    for i in prediction:
+        if i>=1 and i<=5:
+            prediction_restrain.append(i)
+        elif i<1:
+            prediction_restrain.append(1)
+        else:
+            prediction_restrain.append(5)
+    return math.sqrt(sum(map(lambda x,y:np.square(x-y),target,prediction_restrain))/len(target))
+
 stem = PorterStemmer()
 
 df = pd.read_csv("/Users/yilixia/Downloads/lyi_small.csv")
@@ -84,11 +97,12 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 # Initialize the "CountVectorizer" object, which is scikit-learn's
 # bag of words tool.
-vectorizer = CountVectorizer(analyzer="word", \
-                             tokenizer=None, \
-                             preprocessor=None, \
-                             stop_words=None, \
-                             max_features=7000)
+vectorizer = CountVectorizer(analyzer="word",
+                             tokenizer=None,
+                             preprocessor=None,
+                             stop_words=None,
+                             max_features=7000,
+                             max_df=0.08)
 # 怎么多加停词
 
 train_data_features = vectorizer.fit_transform(clean_train_reviews)
@@ -157,184 +171,180 @@ for i in range(500):
 accuracy = fake_sum / 500
 accuracy
 
-import math
-def mse_calculation(target,prediction):
-    return math.sqrt(sum(map(lambda x,y:(x-y)**2,target,prediction))/len(target))
-
-mse_calculation(result,true_test)
+print(mse_calculation(result,true_test))
 
 ###########################################METHOD2###############################
-
-# Part two for word2vec
-# need to fix problems of  other language
-import nltk
-
-
-def review_to_wordlist(review, remove_stopwords=False):
-    # Function to convert a document to a sequence of words,
-    # optionally removing stop words.  Returns a list of words.
-    #
-    # 1. Remove HTML
-    #
-    # 2. Remove non-letters
-    review_text = re.sub("[^a-zA-Z]", " ", review)
-    #
-    # 3. Convert words to lower case and split them
-    words = review_text.lower().split()
-    #
-    # 4. Optionally remove stop words (false by default)
-    if remove_stopwords:
-        stops = set(stopwords.words("english"))
-        words = [w for w in words if not w in stops]
-    #
-    # 5. Return a list of words
-    return (words)
-
-
-tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-
-
-def review_to_sentences(review, tokenizer, remove_stopwords=False):
-    # Function to split a review into parsed sentences. Returns a
-    # list of sentences, where each sentence is a list of words
-    #
-    # 1. Use the NLTK tokenizer to split the paragraph into sentences
-    raw_sentences = tokenizer.tokenize(review.strip())
-    #
-    # 2. Loop over each sentence
-    sentences = []
-    for raw_sentence in raw_sentences:
-        # If a sentence is empty, skip it
-        if len(raw_sentence) > 0:
-            # Otherwise, call review_to_wordlist to get a list of words
-            sentences.append(review_to_wordlist(raw_sentence, \
-                                                remove_stopwords))
-    #
-    # Return the list of sentences (each sentence is a list of words,
-    # so this returns a list of lists
-    return sentences
-
-
-sentences = []  # Initialize an empty list of sentences
-
-print("Parsing sentences from training set")
-for i in range(train_num):
-    sentences += review_to_sentences(df.iloc[i, 2], tokenizer)
-# Import the built-in logging module and configure it so that Word2Vec
-# creates nice output messages
-import logging
-
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', \
-                    level=logging.INFO)
-
-num_features = 500  # Word vector dimensionality
-min_word_count = 40  # Minimum word count
-num_workers = 4  # Number of threads to run in parallel
-context = 10  # Context window size
-downsampling = 1e-3  # Downsample setting for frequent words
-
-# Initialize and train the model (this will take some time)
-from gensim.models import word2vec
-
-print("Training model...")
-model = word2vec.Word2Vec(sentences, workers=num_workers, \
-                          size=num_features, min_count=min_word_count, \
-                          window=context, sample=downsampling)
-model_name = "500features_33swords_50000context"
-model.save(model_name)
-model.doesnt_match("man woman child kitchen".split())
-model.doesnt_match("good nice perfect bad".split())
-
-model.doesnt_match("good nice perfect bad".split())
-model.most_similar("good")
-model.most_similar("bad")
-model.most_similar("awful")
-model.most_similar("chinese")
-model.most_similar("lol")
-# load model
-from gensim.models import Word2Vec
-
-model = Word2Vec.load("500features_33swords_50000context")
-model.wv.syn0.shape
-
-
-def makeFeatureVec(words, model, num_features):
-    # Function to average all of the word vectors in a given
-    # paragraph
-    #
-    # Pre-initialize an empty numpy array (for speed)
-    featureVec = np.zeros((num_features,), dtype="float32")
-    #
-    nwords = 0.
-    #
-    # Index2word is a list that contains the names of the words in
-    # the model's vocabulary. Convert it to a set, for speed
-    index2word_set = set(model.wv.index2word)
-    #
-    # Loop over each word in the review and, if it is in the model's
-    # vocaublary, add its feature vector to the total
-    for word in words:
-        if word in index2word_set:
-            nwords = nwords + 1.
-            featureVec = np.add(featureVec, model[word])
-    #
-    # Divide the result by the number of words to get the average
-    featureVec = np.divide(featureVec, nwords)
-    return featureVec
-
-
-def getAvgFeatureVecs(reviews, model, num_features):
-    # Given a set of reviews (each one a list of words), calculate
-    # the average feature vector for each one and return a 2D numpy array
-    #
-    # Initialize a counter
-    counter = 0
-    #
-    # Preallocate a 2D numpy array, for speed
-    reviewFeatureVecs = np.zeros((len(reviews), num_features), dtype="float32")
-    #
-    # Loop through the reviews
-    for review in reviews:
-        #
-        # Print a status message every 1000th review
-        if counter % 1000 == 0:
-            print("Review %d of %d" % (counter, len(reviews)))
-        #
-        # Call the function (defined above) that makes average feature vectors
-        reviewFeatureVecs[counter] = makeFeatureVec(review, model, \
-                                                    num_features)
-        #
-        # Increment the counter
-        counter = counter + 1
-    return reviewFeatureVecs
-
-
-# Calculate average feature vectors for training and testing sets,
-# using the functions we defined above. Notice that we now use stop word
-# removal.
-
-
-clean_train_reviews = []
-for i in range(train_num):
-    clean_train_reviews.append(review_to_wordlist(df.iloc[i, 2], remove_stopwords=True))
-trainDataVecs = getAvgFeatureVecs(clean_train_reviews, model, num_features)
-
-test = df.iloc[train_num + 1:train_num + 501, 2]
-clean_test_reviews = []
-for i in range(len(test)):
-    clean_test_reviews.append(review_to_wordlist(test.iloc[i], \
-                                                 remove_stopwords=True))
-testDataVecs = getAvgFeatureVecs(clean_test_reviews, model, num_features)
-forest = RandomForestClassifier(n_estimators=100)
-print("Fitting a random forest to labeled training data...")
-# 其中有一部分有问题，可能是因为有翻译问题,或者删掉
-forest = forest.fit(trainDataVecs[25000:50000], df.iloc[25000:train_num, 0])
-result = forest.predict(testDataVecs)
-output = pd.DataFrame(data={"id": df.iloc[train_num + 1:train_num + 501, 0], "sentiment": result})
-
-correct = 0
-for i in range(500):
-    x = np.square(output.iloc[i, 0] - output.iloc[i, 1])
-    correct += x
-mse = correct / 500
-mse  # 1.15
+#
+# # Part two for word2vec
+# # need to fix problems of  other language
+# import nltk
+#
+#
+# def review_to_wordlist(review, remove_stopwords=False):
+#     # Function to convert a document to a sequence of words,
+#     # optionally removing stop words.  Returns a list of words.
+#     #
+#     # 1. Remove HTML
+#     #
+#     # 2. Remove non-letters
+#     review_text = re.sub("[^a-zA-Z]", " ", review)
+#     #
+#     # 3. Convert words to lower case and split them
+#     words = review_text.lower().split()
+#     #
+#     # 4. Optionally remove stop words (false by default)
+#     if remove_stopwords:
+#         stops = set(stopwords.words("english"))
+#         words = [w for w in words if not w in stops]
+#     #
+#     # 5. Return a list of words
+#     return (words)
+#
+#
+# tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+#
+#
+# def review_to_sentences(review, tokenizer, remove_stopwords=False):
+#     # Function to split a review into parsed sentences. Returns a
+#     # list of sentences, where each sentence is a list of words
+#     #
+#     # 1. Use the NLTK tokenizer to split the paragraph into sentences
+#     raw_sentences = tokenizer.tokenize(review.strip())
+#     #
+#     # 2. Loop over each sentence
+#     sentences = []
+#     for raw_sentence in raw_sentences:
+#         # If a sentence is empty, skip it
+#         if len(raw_sentence) > 0:
+#             # Otherwise, call review_to_wordlist to get a list of words
+#             sentences.append(review_to_wordlist(raw_sentence, \
+#                                                 remove_stopwords))
+#     #
+#     # Return the list of sentences (each sentence is a list of words,
+#     # so this returns a list of lists
+#     return sentences
+#
+#
+# sentences = []  # Initialize an empty list of sentences
+#
+# print("Parsing sentences from training set")
+# for i in range(train_num):
+#     sentences += review_to_sentences(df.iloc[i, 2], tokenizer)
+# # Import the built-in logging module and configure it so that Word2Vec
+# # creates nice output messages
+# import logging
+#
+# logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', \
+#                     level=logging.INFO)
+#
+# num_features = 500  # Word vector dimensionality
+# min_word_count = 40  # Minimum word count
+# num_workers = 4  # Number of threads to run in parallel
+# context = 10  # Context window size
+# downsampling = 1e-3  # Downsample setting for frequent words
+#
+# # Initialize and train the model (this will take some time)
+# from gensim.models import word2vec
+#
+# print("Training model...")
+# model = word2vec.Word2Vec(sentences, workers=num_workers, \
+#                           size=num_features, min_count=min_word_count, \
+#                           window=context, sample=downsampling)
+# model_name = "500features_33swords_50000context"
+# model.save(model_name)
+# model.doesnt_match("man woman child kitchen".split())
+# model.doesnt_match("good nice perfect bad".split())
+#
+# model.doesnt_match("good nice perfect bad".split())
+# model.most_similar("good")
+# model.most_similar("bad")
+# model.most_similar("awful")
+# model.most_similar("chinese")
+# model.most_similar("lol")
+# # load model
+# from gensim.models import Word2Vec
+#
+# model = Word2Vec.load("500features_33swords_50000context")
+# model.wv.syn0.shape
+#
+#
+# def makeFeatureVec(words, model, num_features):
+#     # Function to average all of the word vectors in a given
+#     # paragraph
+#     #
+#     # Pre-initialize an empty numpy array (for speed)
+#     featureVec = np.zeros((num_features,), dtype="float32")
+#     #
+#     nwords = 0.
+#     #
+#     # Index2word is a list that contains the names of the words in
+#     # the model's vocabulary. Convert it to a set, for speed
+#     index2word_set = set(model.wv.index2word)
+#     #
+#     # Loop over each word in the review and, if it is in the model's
+#     # vocaublary, add its feature vector to the total
+#     for word in words:
+#         if word in index2word_set:
+#             nwords = nwords + 1.
+#             featureVec = np.add(featureVec, model[word])
+#     #
+#     # Divide the result by the number of words to get the average
+#     featureVec = np.divide(featureVec, nwords)
+#     return featureVec
+#
+#
+# def getAvgFeatureVecs(reviews, model, num_features):
+#     # Given a set of reviews (each one a list of words), calculate
+#     # the average feature vector for each one and return a 2D numpy array
+#     #
+#     # Initialize a counter
+#     counter = 0
+#     #
+#     # Preallocate a 2D numpy array, for speed
+#     reviewFeatureVecs = np.zeros((len(reviews), num_features), dtype="float32")
+#     #
+#     # Loop through the reviews
+#     for review in reviews:
+#         #
+#         # Print a status message every 1000th review
+#         if counter % 1000 == 0:
+#             print("Review %d of %d" % (counter, len(reviews)))
+#         #
+#         # Call the function (defined above) that makes average feature vectors
+#         reviewFeatureVecs[counter] = makeFeatureVec(review, model, \
+#                                                     num_features)
+#         #
+#         # Increment the counter
+#         counter = counter + 1
+#     return reviewFeatureVecs
+#
+#
+# # Calculate average feature vectors for training and testing sets,
+# # using the functions we defined above. Notice that we now use stop word
+# # removal.
+#
+#
+# clean_train_reviews = []
+# for i in range(train_num):
+#     clean_train_reviews.append(review_to_wordlist(df.iloc[i, 2], remove_stopwords=True))
+# trainDataVecs = getAvgFeatureVecs(clean_train_reviews, model, num_features)
+#
+# test = df.iloc[train_num + 1:train_num + 501, 2]
+# clean_test_reviews = []
+# for i in range(len(test)):
+#     clean_test_reviews.append(review_to_wordlist(test.iloc[i], \
+#                                                  remove_stopwords=True))
+# testDataVecs = getAvgFeatureVecs(clean_test_reviews, model, num_features)
+# forest = RandomForestClassifier(n_estimators=100)
+# print("Fitting a random forest to labeled training data...")
+# # 其中有一部分有问题，可能是因为有翻译问题,或者删掉
+# forest = forest.fit(trainDataVecs[25000:50000], df.iloc[25000:train_num, 0])
+# result = forest.predict(testDataVecs)
+# output = pd.DataFrame(data={"id": df.iloc[train_num + 1:train_num + 501, 0], "sentiment": result})
+#
+# correct = 0
+# for i in range(500):
+#     x = np.square(output.iloc[i, 0] - output.iloc[i, 1])
+#     correct += x
+# mse = correct / 500
+# mse  # 1.15

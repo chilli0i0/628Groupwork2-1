@@ -182,6 +182,7 @@ Quote: "Manually creating and validating such lists of opinion-bearing features,
 **random forest based on lexicon**:
 
 
+
 **model_construction**: using only 5 variables (pos, neg, neu, comp, length)
 
 * random forest: 0.934699339279717
