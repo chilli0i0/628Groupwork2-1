@@ -8,8 +8,51 @@ Created on Sun Feb 25 22:19:11 2018
 import pandas as pd
 import numpy as np
 import math
-df=pd.read_csv("train_data.csv")
-variables = pd.read_pickle('variables')
+col_index = [0]
+for i in range(5,159):
+    col_index.append(i)
+df=pd.read_csv("train_new_cate.csv",usecols=[0])
+df = df.drop(23794)
+emotion_words_in_reviews_df = pd.read_pickle('./features/emotion_words_in_reviews_df')
+emotion_features = pd.read_pickle('./features/emotion_features')
+simple_features = pd.read_pickle('./features/simple_features')
+ylx_features = pd.read_pickle('./features/ylx')
+
+# read trainDataVecs and train_centroids and merge them together
+trainDataVecs = np.load('./features/trainDataVecs.npy')
+train_centroids = np.load('./features/train_centroids.npy')
+NaiveBoW = np.load('./features/NaiveBoW.npy')
+
+
+trainDataVecsDf = pd.DataFrame(trainDataVecs)
+train_centroidsDf = pd.DataFrame(train_centroids)
+NaiveBoWDf = pd.DataFrame(NaiveBoW)
+
+col_index.remove(0)
+categoriyDf = pd.read_csv("train_new_cate.csv",usecols=col_index)
+
+
+frames = [emotion_words_in_reviews_df,emotion_features,simple_features,ylx_features, \
+trainDataVecsDf,train_centroidsDf]#[emotion_words_in_reviews_df,emotion_features,simple_features,categoriyDf]
+result = pd.concat(frames,axis=1)
+#np.savetxt("x.csv", result, delimiter=",")
+#df['stars'][0:50000].to_csv('target.csv', sep=',')
+#result.to_pickle('reviews_information.csv')
+#result = pd.read_pickle('reviews_information.csv')
+
+x_train = result.iloc[0:45000,:].as_matrix() #np.float64(result.iloc[25000:45000,:].as_matrix())
+target_train = df['stars'].iloc[0:45000]
+
+x_test = result.iloc[45001:50000,:].as_matrix()#np.float64(result.iloc[45000:50000,:].as_matrix())
+target_test = df['stars'].iloc[45001:50000]#df['stars'][45000:50000]
+
+# Impute NaN
+from sklearn.preprocessing import Imputer
+imputer = Imputer(missing_values='NaN', strategy='mean', axis=0, verbose=0, copy=True)
+x_train = imputer.fit_transform(x_train,target_train)
+x_test = imputer.fit_transform(x_test,target_test)
+
+
 
 def mse_calculation(target,prediction):
     prediction_restrain = list()
@@ -25,25 +68,7 @@ def mse_calculation(target,prediction):
 
 
 
-# read trainDataVecs and train_centroids and merge them together
-trainDataVecs = np.load('trainDataVecs.npy')
-train_centroids = np.load('train_centroids.npy')
 
-trainDataVecsDf = pd.DataFrame(trainDataVecs)
-train_centroidsDf = pd.DataFrame(train_centroids)
-
-frames = [trainDataVecsDf]
-result = pd.concat(frames,axis=1)
-#np.savetxt("x.csv", result, delimiter=",")
-#df['stars'][0:50000].to_csv('target.csv', sep=',')
-#result.to_pickle('reviews_information.csv')
-#result = pd.read_pickle('reviews_information.csv')
-
-x_train = np.float64(result.iloc[25000:45000,:].as_matrix())
-target_train = df['stars'][25000:45000]
-
-x_test = np.float64(result.iloc[45000:50000,:].as_matrix())
-target_test = df['stars'][45000:50000]
 
 # random forest
 from sklearn.ensemble import RandomForestRegressor
@@ -128,13 +153,14 @@ KNNR_fit = KNNR.fit(x_train,target_train.values.ravel())
 KNNR_predict = KNNR.predict( x_test )    
 mse_calculation([float(i) for i in target_test],list(KNNR_predict))
 #1.04
+
 # linear regression
 from sklearn.linear_model import LinearRegression
 lm = LinearRegression(fit_intercept=True, normalize=True, copy_X=True, n_jobs=1)
 lm_fit = lm.fit(x_train,target_train.values.ravel())
 lm_predict = lm.predict( x_test )    
 mse_calculation([float(i) for i in target_test],list(lm_predict))
-# 0.84
+# 0.790
 
 
 # linear regression - lasso
