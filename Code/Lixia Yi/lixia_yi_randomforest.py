@@ -29,18 +29,50 @@ emotion_words_list = emotion_words[0].tolist()
 emotion_words_list1 = emotion_words1[0].tolist()
 
 
-emotion_words_times = [all_keywords_each.count(i) for i in emotion_words_list]
-emotion_words_selected = [emotion_words_list[i] for i in range(len(emotion_words_list)) if emotion_words_times[i]>0]
-emotion_related_scores = {emotion_words_list[i]:emotion_scores_list[i] for i in range(len(emotion_words_list)) if emotion_words_times[i]>0}
+# emotion_words_times = [all_keywords_each.count(i) for i in emotion_words_list]
+# emotion_words_selected = [emotion_words_list[i] for i in range(len(emotion_words_list)) if emotion_words_times[i]>0]
+# emotion_related_scores = {emotion_words_list[i]:emotion_scores_list[i] for i in range(len(emotion_words_list)) if emotion_words_times[i]>0}
 
 
-emotion_words_in_reviews = list()
-for index,i in enumerate(emotion_words_selected):
-    tmp = list()
-    for j in range(len(keywords_in_each_review)):
-        tmp.append([i[1] for i in keywords_in_each_review[j]].count(i))
-    emotion_words_in_reviews.append(("critical_words"+str(index),tmp))
+# emotion_words_in_reviews = list()
+# for index,i in enumerate(emotion_words_selected):
+#     tmp = list()
+#     for j in range(len(keywords_in_each_review)):
+#         tmp.append([i[1] for i in keywords_in_each_review[j]].count(i))
+#     emotion_words_in_reviews.append(("critical_words"+str(index),tmp))
+#
+# emotion_words_in_reviews_df = pd.DataFrame.from_items(emotion_words_in_reviews)
+#
+# emotion_words_in_reviews_df.head()
 
-emotion_words_in_reviews_df = pd.DataFrame.from_items(emotion_words_in_reviews)
+print("Creating the bag of words...\n")
+from sklearn.feature_extraction.text import CountVectorizer
 
-emotion_words_in_reviews_df.head()
+# Initialize the "CountVectorizer" object, which is scikit-learn's
+# bag of words tool.
+vectorizer = CountVectorizer(analyzer="word",
+                             tokenizer=None,
+                             preprocessor=None,
+                             stop_words=None,
+                             max_features=7000,
+                             input=emotion_words_list,
+                             lowercase=True)
+
+
+train_data_features = vectorizer.fit_transform(df.loc[sample, 'text'])
+
+# Numpy arrays are easy to work with, so convert the result to an
+# array
+train_data_features = train_data_features.toarray()
+
+print(train_data_features.shape)
+vocab = vectorizer.get_feature_names()  # 按字母排列顺序的
+import numpy as np
+
+# Sum up the counts of each vocabulary word
+dist = np.sum(train_data_features, axis=0)
+
+# For each, print the vocabulary word and the number of times it
+# appears in the training set
+for tag, count in zip(vocab, dist):
+    print(count, tag)

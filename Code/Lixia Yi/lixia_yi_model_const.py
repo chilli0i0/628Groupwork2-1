@@ -24,26 +24,63 @@ def mse_calculation(target,prediction):
 
 
 # TODO: try the methods with vader sentiment scores
+import random
+df = pd.read_csv("/Users/yilixia/Downloads/lyi_small.csv")
 
-# read trainDataVecs and train_centroids and merge them together
-trainDataVecs = np.load('trainDataVecs.npy')
-train_centroids = np.load('train_centroids.npy')
+# sentim_Analyzer = nltk.sentiment.SentimentIntensityAnalyzer()
 
-trainDataVecsDf = pd.DataFrame(trainDataVecs)
-train_centroidsDf = pd.DataFrame(train_centroids)
+random.seed(8102)
 
-frames = [trainDataVecsDf]
-result = pd.concat(frames,axis=1)
-#np.savetxt("x.csv", result, delimiter=",")
-#df['stars'][0:50000].to_csv('target.csv', sep=',')
-#result.to_pickle('reviews_information.csv')
-#result = pd.read_pickle('reviews_information.csv')
+sample_size = 50000
+sample = random.sample(range(df.shape[0]), sample_size)
 
-x_train = np.float64(result.iloc[25000:45000,:].as_matrix())
-target_train = df['stars'][25000:45000]
+test_size = 10000
+test_sample = random.sample(range(df.shape[0]), test_size)
 
-x_test = np.float64(result.iloc[45000:50000,:].as_matrix())
-target_test = df['stars'][45000:50000]
+import nltk.sentiment
+sentim_Analyzer = nltk.sentiment.SentimentIntensityAnalyzer()
+
+pos = []
+neg = []
+neu = []
+compound = []
+length = []
+for i in range(sample_size):
+    if ((i + 1) % 1000 == 0):
+        print("Review %d of %d\n" % (i + 1, sample_size))
+    sentim_tmp = sentim_Analyzer.polarity_scores(df.loc[sample[i], 'text'])
+    pos.append(sentim_tmp.get('pos'))
+    neg.append(sentim_tmp.get('neg'))
+    neu.append(sentim_tmp.get('neu'))
+    compound.append(sentim_tmp.get('compound'))
+    length.append(len(df.loc[sample[i], 'text']))
+
+
+target_train = (df.loc[sample, 'stars'])
+
+x_train = np.column_stack((pos, neg, neu, compound, length))
+
+
+# test model
+pos = []
+neg = []
+neu = []
+compound = []
+length = []
+for i in range(test_size):
+    if ((i + 1) % 1000 == 0):
+        print("Review %d of %d\n" % (i + 1, test_size))
+    sentim_tmp = sentim_Analyzer.polarity_scores(df.loc[test_sample[i], 'text'])
+    pos.append(sentim_tmp.get('pos'))
+    neg.append(sentim_tmp.get('neg'))
+    neu.append(sentim_tmp.get('neu'))
+    compound.append(sentim_tmp.get('compound'))
+    length.append(len(df.loc[test_sample[i], 'text']))
+
+x_test = np.column_stack((pos, neg, neu, compound, length))
+
+target_test = (df.loc[test_sample, 'stars'])
+
 
 # random forest
 from sklearn.ensemble import RandomForestRegressor
@@ -51,7 +88,7 @@ forest = RandomForestRegressor(n_estimators = 100)
 forest = forest.fit( x_train, target_train.values.ravel() )
 predict = forest.predict( x_test )
 mse_calculation([float(i) for i in target_test],list(predict))
-# 0.90
+# 0.934699339279717
 
 
 # SVM
@@ -64,7 +101,7 @@ svc.fit(X_train,target_train.values.ravel())
 X_test = StandardScaler().fit_transform(x_test)
 result=svc.predict(X_test)
 mse_calculation([float(i) for i in target_test],list(result))
-#0.83
+# 0.9626625198488145
 
 # xgboost
 
@@ -75,7 +112,8 @@ gbdt = GradientBoostingRegressor(n_estimators=100,loss='ls',max_depth=5)
 gbdt_fit = gbdt.fit( x_train, target_train.values.ravel() )
 gbdt_predict = gbdt.predict( x_test )
 mse_calculation([float(i) for i in target_test],list(gbdt_predict))
-#0.85
+# 0.9392548849453111
+
 
 # Naive Bayes
 from sklearn.naive_bayes import GaussianNB

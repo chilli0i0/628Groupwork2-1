@@ -176,3 +176,24 @@ It may be deduced that the length of review is also important
 **Vader** 
 
 Quote: "Manually creating and validating such lists of opinion-bearing features, while being among the most robust methods for generating reliable sentiment lexicons, is also one of the most time-consuming. For this reason, much of the applied research leveraging sentiment analysis relies heavily on preexisting manually constructed lexicons."
+
+
+### March 1
+**random forest based on lexicon**:
+
+
+**model_construction**: using only 5 variables (pos, neg, neu, comp, length)
+
+* random forest: 0.934699339279717
+* svm: 0.9626625198488145
+* gradient boost: 0.9392548849453111
+* naive bayes: 1.1403069762129845
+* logistic: did not converge
+* decision tree: 1.1773699503554522
+* regression tree: 0.9482950239298016
+* k-nearest: 1.2349898785010345
+* k-nearest regression: 1.0493617107556397
+* linear regression: 0.9738422761451919
+
+
+
