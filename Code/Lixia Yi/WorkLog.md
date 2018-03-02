@@ -197,4 +197,3 @@ Quote: "Manually creating and validating such lists of opinion-bearing features,
 * linear regression: 0.9738422761451919
 
 
-

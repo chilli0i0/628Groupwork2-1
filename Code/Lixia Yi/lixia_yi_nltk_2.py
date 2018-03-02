@@ -1,16 +1,16 @@
 # read data
 import pandas as pd
-from rake_nltk import Rake
-import nltk
-import string
-import collections
-import vaderSentiment
+# from rake_nltk import Rake
+# import nltk
+# import string
+# import collections
+# import vaderSentiment
 import random
 import nltk.sentiment
-from nltk.corpus import sentiwordnet as swn
-from sklearn import linear_model, metrics, datasets
+# from nltk.corpus import sentiwordnet as swn
+# from sklearn import linear_model, metrics, datasets
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 def mse_calculation(target,prediction):

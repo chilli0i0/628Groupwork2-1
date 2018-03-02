@@ -71,9 +71,10 @@ from langdetect import detect
 chinese=[]
 other_lan=[]
 #主要需要改一下这个range 在后面加数字就行
-for i in range(df.shape[0]):
-    if detect(df.loc[i,'text'])=='ko' or detect(df.loc[i,'text'])=='zh-tw' or detect(df.loc[i,'text'])=='zh-cn':
+for i in range(341038, 399999):
+    if detect(df.loc[i,'text'])=='zh-cn':
         chinese.append(i)
+        print(i)
     elif detect(df.iloc[i,2])!='en':
         translator = Translator()
         fake2=translator.translate(df.iloc[i,2])
