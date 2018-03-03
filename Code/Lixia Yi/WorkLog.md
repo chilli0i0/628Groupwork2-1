@@ -181,7 +181,9 @@ Quote: "Manually creating and validating such lists of opinion-bearing features,
 ### March 1
 **random forest based on lexicon**:
 
+CountVectorizer has an option "input" where you can use a lexicon, but it wasn't successful
 
+#### Suggestion for improvement: Expand the vader lexicon with the sentiNet lexicon even if it is not very appropriate.
 
 **model_construction**: using only 5 variables (pos, neg, neu, comp, length)
 
@@ -195,5 +197,30 @@ Quote: "Manually creating and validating such lists of opinion-bearing features,
 * k-nearest: 1.2349898785010345
 * k-nearest regression: 1.0493617107556397
 * linear regression: 0.9738422761451919
+
+
+### March 3
+**NBSVM** :
+
+
+```
+lens = [len(x.split()) for x in df.text]
+lens = pd.Series(lens)
+df.loc[lens == lens.max(), ['stars', 'text']]
+df.loc[lens == lens.min(), ['stars', 'text']]
+lens.mean()
+lens.var()
+-------------------------
+df.loc[lens == lens.min(), 'text']
+Out[91]: 
+140990    ok
+387315    at
+Name: text, dtype: object
+df.loc[lens == lens.min(), 'stars']
+Out[92]: 
+140990    2
+387315    5
+Name: stars, dtype: int64
+```
 
 
