@@ -10,4 +10,7 @@
     5. magic feature
     6. others
  * Under categories are "Hotels"! It could be expected that the reviews look differently...
+ 
+ 
+ * inspect the test data set to make sure whether the abnormal reviews (http, one word) are in fact NAs or need to be treated specially.
 
