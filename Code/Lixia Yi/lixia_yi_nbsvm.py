@@ -12,7 +12,10 @@ import numpy as np
 # import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
+import math
+import time
 
+start = time.time()
 
 def mse_calculation(target,prediction):
     prediction_restrain = list()
@@ -27,28 +30,31 @@ def mse_calculation(target,prediction):
 
 
 
-df = pd.read_csv("/Users/yilixia/Downloads/lyi_small.csv")
+# df = pd.read_csv("/Users/yilixia/Downloads/lyi_small.csv")
+train = pd.read_csv("/Users/yilixia/Downloads/train_new_cate.csv")
+test = pd.read_csv("/Users/yilixia/Downloads/test_new_cate.csv")
+
+# random.seed(8102)
+#
+# sample_size = 50000
+# sample = random.sample(range(df.shape[0]), sample_size)
+#
+# test_size = 10000
+# test_sample = random.sample(range(df.shape[0]), test_size)
+#
+# # data insight
+# lens = [len(x.split()) for x in df.text]
+# lens = pd.Series(lens)
+# df.loc[lens == lens.max(), ['stars', 'text']]
+# df.loc[lens == lens.min(), ['stars', 'text']]
+# lens.mean()
+# lens.var()
 
 
-random.seed(8102)
-
-sample_size = 50000
-sample = random.sample(range(df.shape[0]), sample_size)
-
-test_size = 10000
-test_sample = random.sample(range(df.shape[0]), test_size)
-
-# data insight
-lens = [len(x.split()) for x in df.text]
-lens = pd.Series(lens)
-df.loc[lens == lens.max(), ['stars', 'text']]
-df.loc[lens == lens.min(), ['stars', 'text']]
-lens.mean()
-lens.var()
-
-
-train = df.loc[sample, ['stars', 'text']]
-test = df.loc[test_sample, ['stars', 'text']]
+# train = df.loc[sample, ['stars', 'text']]
+# test = df.loc[test_sample, ['stars', 'text']]
+train = train.loc[:, ['stars', 'text']]
+test = test.loc[:, ['stars', 'text']]
 
 label_cols = ['1', '2', '3', '4', '5']
 
@@ -64,8 +70,10 @@ re_tok = re.compile(f'([{string.punctuation}“”¨«»®´·º½¾¿¡§£₤�
 
 def tokenize(s): return re_tok.sub(r' \1 ', s).split()
 
-n = df.shape[0]
+# n = df.shape[0]
+n = train.shape[0]
 # parameters are untuned!
+# term frequency–inverse document frequency
 vec = TfidfVectorizer(ngram_range=(1,2), tokenizer=tokenize,
                       min_df=3, max_df=0.9, strip_accents='unicode', use_idf=1,
                       smooth_idf=1, sublinear_tf=1)
@@ -92,7 +100,7 @@ def get_mdl(y):
 
 
 
-preds = np.zeros((test_size, len(label_cols)))
+preds = np.zeros((test.shape[0], len(label_cols)))
 
 for i, j in enumerate(label_cols):
     print('fit', j)
@@ -103,7 +111,15 @@ for i, j in enumerate(label_cols):
 preds = np.asmatrix(preds)
 stars = np.matrix([1, 2, 3, 4, 5]).transpose()
 
+
+# tmp_preds = preds.sum(1)
+# tmp_preds = preds / tmp_preds
+
+
 tmp = preds * stars
 tmp.shape
 
-mse_calculation(train['stars'], tmp)
+print(mse_calculation(train['stars'], tmp))
+
+end = time.time()
+print(end - start)
