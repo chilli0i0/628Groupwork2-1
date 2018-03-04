@@ -237,5 +237,53 @@ Out[92]:
 387315    5
 Name: stars, dtype: int64
 ```
+In test data:
+```
+4059                                     Bland
+32263                                 Average.
+54805                            非常非常好吃，非常非常推荐
+64334                                  Neither
+67779                                   r.i.p.
+76134                                     Yum!
+149693                                   Blah.
+199176                               美味しかったー！！
+223042                                  Miamm!
+226134                              Overrated.
+228762                            Snickelfritz
+369174                                 J'adore
+376119                                Palabra!
+382889                                 Decent.
+427503                                Super!!!
+445509                                  普通でした。
+468450                              Excellent!
+506109                                 closed!
+516018                                    Bien
+540971                                  r.i.p.
+555996                                Correcte
+673163                                  r.i.p.
+731627                                   Bomb!
+738464                                   mouai
+748331                                   Gross
+749039                               Hhhjjjhhh
+756618                                 Monkey.
+816660                                  closed
+825752                                       X
+959813    #notedible#doubleyuk!yuk!#neveragain
+963217                                       E
+971995                                       O
 
+```
+In train data:
+```
+203353                                                  Dont
+210298                                                 Fast?
+259204                                                     V
+1104976                                                  RIP
+1163069                                                   Wo
+1199182                                               Vomit.
+1373201    Spicyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy...
+1391454                                              Poutine
+1450257                                               r.i.p.
+1475572                                                    y
 
+```
