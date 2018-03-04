@@ -203,8 +203,17 @@ CountVectorizer has an option "input" where you can use a lexicon, but it wasn't
 **NBSVM** :
 
 Results are too good to believe:
-* mes: 0.5693397360487193
-* time: 71.50582909584045
+```
+* est.stars 0.6664561464259615
+* prob*stars 0.9494745847706799
+* max_prob:  0.7906563642008928
+* time:  70.73907089233398
+-------------------------
+* est.stars 0.6244147329229339
+* prob*stars 0.9248609143143568
+* max_prob:  0.7380687809733285
+* 155.96418404579163
+```
 
 
 ```

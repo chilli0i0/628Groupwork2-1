@@ -36,13 +36,13 @@ df = pd.read_csv("/Users/yilixia/Downloads/lyi_small.csv")
 
 # random.seed(8102)
 # select train and test samples
-sample_size = 110000
+sample_size = 210000
 test_size = 10000
 
 sample = random.sample(range(df.shape[0]), sample_size)
 
-test_sample = sample[99999:199999]
-sample = sample[0:99999]
+test_sample = sample[199999:299999]
+sample = sample[0:199999]
 
 # data insight
 # lens = [len(x.split()) for x in df.text]
