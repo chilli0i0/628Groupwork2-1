@@ -146,7 +146,7 @@ def mse_calculation(target,prediction):
 
 
 df = pd.read_csv("test_new.csv")
-
+df.iloc[339510,1]="flight bar"
 #train = pd.read_csv("train_new.csv")
 #test = pd.read_csv("test_new.csv")
 
