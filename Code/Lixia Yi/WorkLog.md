@@ -202,6 +202,8 @@ CountVectorizer has an option "input" where you can use a lexicon, but it wasn't
 ### March 3
 **NBSVM** :
 
+* Source: https://www.kaggle.com/jhoward/nb-svm-strong-linear-baseline/notebook
+
 Results are too good to believe:
 ```
 * est.stars 0.6664561464259615
