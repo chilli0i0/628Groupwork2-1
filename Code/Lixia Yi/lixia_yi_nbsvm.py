@@ -30,19 +30,21 @@ def mse_calculation(target,prediction):
 
 
 
-# df = pd.read_csv("/Users/yilixia/Downloads/lyi_small.csv")
-train = pd.read_csv("/Users/yilixia/Downloads/train_new_cate.csv")
-test = pd.read_csv("/Users/yilixia/Downloads/test_new_cate.csv")
+df = pd.read_csv("/Users/yilixia/Downloads/lyi_small.csv")
+# train = pd.read_csv("/Users/yilixia/Downloads/train_new_cate.csv")
+# test = pd.read_csv("/Users/yilixia/Downloads/test_new_cate.csv")
 
 # random.seed(8102)
-#
-# sample_size = 50000
-# sample = random.sample(range(df.shape[0]), sample_size)
-#
-# test_size = 10000
-# test_sample = random.sample(range(df.shape[0]), test_size)
-#
-# # data insight
+# select train and test samples
+sample_size = 110000
+test_size = 10000
+
+sample = random.sample(range(df.shape[0]), sample_size)
+
+test_sample = sample[99999:199999]
+sample = sample[0:99999]
+
+# data insight
 # lens = [len(x.split()) for x in df.text]
 # lens = pd.Series(lens)
 # df.loc[lens == lens.max(), ['stars', 'text']]
@@ -51,10 +53,10 @@ test = pd.read_csv("/Users/yilixia/Downloads/test_new_cate.csv")
 # lens.var()
 
 
-# train = df.loc[sample, ['stars', 'text']]
-# test = df.loc[test_sample, ['stars', 'text']]
-train = train.loc[:, ['stars', 'text']]
-test = test.loc[:, ['stars', 'text']]
+train = df.loc[sample, ['stars', 'text']]
+test = df.loc[test_sample, ['stars', 'text']]
+# train = train.loc[:, ['stars', 'text']]
+# test = test.loc[:, ['stars', 'text']]
 
 label_cols = ['1', '2', '3', '4', '5']
 
@@ -108,18 +110,25 @@ for i, j in enumerate(label_cols):
     preds[:,i] = m.predict_proba(test_x.multiply(r))[:,1]
 
 
+# predictions are the probabilities of stars (1-5)
 preds = np.asmatrix(preds)
 stars = np.matrix([1, 2, 3, 4, 5]).transpose()
 
+# multiply normalized probabilities with stars (Estimation)
+tmp_preds = preds.sum(1)
+tmp_preds = preds / tmp_preds
+tmp = tmp_preds * stars
+print("est.stars", mse_calculation(test['stars'], tmp))
 
-# tmp_preds = preds.sum(1)
-# tmp_preds = preds / tmp_preds
-
-
+# we multiply each probability with stars
 tmp = preds * stars
+# check if prediction follows correct shape
 tmp.shape
+print("prob*stars", mse_calculation(test['stars'], tmp))
 
-print(mse_calculation(train['stars'], tmp))
+# get stars with max probability
+tmp = [x.argmax()+1 for x in preds]
+print("max_prob: ", mse_calculation(test['stars'], tmp))
 
 end = time.time()
 print(end - start)

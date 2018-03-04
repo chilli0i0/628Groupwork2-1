@@ -202,6 +202,10 @@ CountVectorizer has an option "input" where you can use a lexicon, but it wasn't
 ### March 3
 **NBSVM** :
 
+Results are too good to believe:
+* mes: 0.5693397360487193
+* time: 71.50582909584045
+
 
 ```
 lens = [len(x.split()) for x in df.text]
