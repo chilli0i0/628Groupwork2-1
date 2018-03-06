@@ -16,7 +16,7 @@ df = pd.read_csv("/Users/yilixia/Downloads/train_data.csv")
 
 lens = [len(x.split()) for x in df.text]
 lens = pd.Series(lens)
-df.loc[lens == lens.max(), 'text']
-df.loc[lens == lens.min(), 'text']
+df.loc[lens == lens.max(), ['stars', 'text']]
+df.loc[lens == lens.min(), ['stars', 'text']]
 lens.mean()
 lens.var()
