@@ -146,7 +146,7 @@ def mse_calculation(target,prediction):
 
 
 df = pd.read_csv("test_new.csv")
-
+df.iloc[339510,1]="flight bar"
 #train = pd.read_csv("train_new.csv")
 #test = pd.read_csv("test_new.csv")
 
@@ -171,13 +171,13 @@ df = pd.read_csv("test_new.csv")
 
 #train = df.loc[sample, ['stars', 'text']]
 #test = df.loc[test_sample, ['stars', 'text']]
-test = df.loc[:, ['stars', 'text']]
+test = df.loc[:, [ 'text']]
 #test = test.loc[:, ['stars', 'text']]
 
 label_cols = ['1', '2', '3', '4', '5']
 
-for i in label_cols:
-    test[i] = (test['stars'] == int(i))
+#for i in label_cols:
+#    test[i] = (test['stars'] == int(i))
     # test[i] = (test['stars'] == int(i))
 
 re_tok = re.compile(f'([{string.punctuation}“”¨«»®´·º½¾¿¡§£₤‘’])')
@@ -216,17 +216,17 @@ stars = np.matrix([1, 2, 3, 4, 5]).transpose()
 tmp_preds = preds.sum(1)
 tmp_preds = preds / tmp_preds
 tmp = tmp_preds * stars
-print("est.stars", mse_calculation(test['stars'], tmp))
-
-# we multiply each probability with stars
-tmp = preds * stars
-# check if prediction follows correct shape
-tmp.shape
-print("prob*stars", mse_calculation(test['stars'], tmp))
-
-# get stars with max probability
-tmp = [x.argmax()+1 for x in preds]
-print("max_prob: ", mse_calculation(test['stars'], tmp))
-
-end = time.time()
-print(end - start)
+#print("est.stars", mse_calculation(test['stars'], tmp))
+#
+## we multiply each probability with stars
+#tmp = preds * stars
+## check if prediction follows correct shape
+#tmp.shape
+#print("prob*stars", mse_calculation(test['stars'], tmp))
+#
+## get stars with max probability
+#tmp = [x.argmax()+1 for x in preds]
+#print("max_prob: ", mse_calculation(test['stars'], tmp))
+#
+#end = time.time()
+#print(end - start)
