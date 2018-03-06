@@ -290,3 +290,17 @@ In train data:
 1475572                                                    y
 
 ```
+
+### Mar 6
+
+**IDEA**: Should we do multiple nb-svm and take mean? overlapping samples? ensembling methods?
+
+I ran the NB-SVM method five times and take the mean using the whole dataset splitting it into 6 splits.
+I used one split as the testing data (with 359784 rows of data) while the 5 others serve as training sets (each with about 200,000 rows of data).
+It takes about 30 minutes to run the whole process but the results are quite promising
+
+```
+* est.stars 0.6157957335660347
+* prob*stars 0.8858112279495591
+* max_prob:  0.6605802881697144
+```
