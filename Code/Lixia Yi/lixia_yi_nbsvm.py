@@ -76,7 +76,7 @@ n = train.shape[0]
 # parameters are untuned!
 # term frequency–inverse document frequency
 vec = TfidfVectorizer(ngram_range=(1, 2), tokenizer=tokenize,
-                      min_df=0.03, max_df=0.9, strip_accents='unicode', use_idf=1,
+                      min_df=3, max_df=0.9, strip_accents='unicode', use_idf=1,
                       smooth_idf=1, sublinear_tf=1)
 # This creates a sparse matrix with only a small number of non-zero elements
 trn_term_doc = vec.fit_transform(train['text'])
