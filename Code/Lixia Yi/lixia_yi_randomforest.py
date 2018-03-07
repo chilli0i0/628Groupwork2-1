@@ -16,11 +16,14 @@ import math
 from sklearn.feature_extraction.text import CountVectorizer
 import string
 from rake_nltk import Rake
+import time
+
+start = time.time()
 
 # stemmer
 stem = PorterStemmer()
 
-df = pd.read_csv("/Users/yilixia/Downloads/lyi_small.csv")
+df = pd.read_csv("/Users/yilixia/Downloads/stat628/lyi_small.csv")
 
 
 def mse_calculation(target,prediction):
@@ -47,8 +50,9 @@ test_sample = random.sample(range(df.shape[0]), test_size)
 
 
 # TODO: random forest using lexicons in CountVectorizer
-emotion_words = pd.read_csv("Code/Lixia Yi/vader_lexicon.txt", sep="\t", header=None)
-emotion_words1 = pd.read_csv("Code/Lixia Yi/SentiNetLexicon.txt", sep=" ", header=None)
+print("Read Lexicons")
+emotion_words = pd.read_csv("/Users/yilixia/Downloads/stat628/vader_lexicon/vader_lexicon.txt", sep="\t", header=None)
+emotion_words1 = pd.read_csv("/Users/yilixia/Downloads/stat628/SentiNetLexicon.txt", sep=" ", header=None)
 
 emotion_words_list = emotion_words[0].tolist() + emotion_words1[0].tolist()
 
@@ -70,50 +74,43 @@ stop_words = ['a', 'able', 'about', 'across', 'after', 'all', 'almost', 'also', 
               'where', 'while', 'who', 'whom', 'why', 'will', 'would', 'yet', 'you', 'your', '!', '@', '#', '"',
               '$', '(', '.', ')']
 
-r = Rake(stop_words, string.punctuation)
-all_keywords = list()
-all_keywords_split = list()
-for i in range(sample_size):
-    words = [i.lower() for i in word_tokenize(df["text"][i])]
-    sentence_re_stopwords = " ".join([token for token in words if token not in set(string.punctuation)])
-    r.extract_keywords_from_text(sentence_re_stopwords)
-    phrases = r.get_ranked_phrases()
-    scores = r.get_ranked_phrases_with_scores()
-    all_keywords.append([scores[i] for i in range(len(phrases)) if scores[i][0] > 1])
-    all_keywords_split.append(
-        [(scores[i][0], nltk.word_tokenize(phrases[i])) for i in range(len(phrases)) if scores[i][0] > 1])
-
-import collections
-
-all_keywords_each = list()
-for i in all_keywords_split:
-    for j in i:
-        for l in range(len(j[1])):
-            if j[1][l].isalpha():
-                all_keywords_each.append(j[1][l])
-
-keywords_in_each_review = list()
-for i in all_keywords_split:
-    tmp = list()
-    score_list = [i[k][0] for k in range(len(i))]
-    for index, j in enumerate(i):
-        for l in range(len(j[1])):
-            if j[1][l].isalpha():
-                tmp.append((score_list[index], j[1][l]))
-    keywords_in_each_review.append(tmp)
-
-keywords_in_each_review_small = collections.Counter(all_keywords_each).most_common()[0:19890]
-
-# extract emotion words from keywords
-emotion_words_times = [all_keywords_each.count(i) for i in emotion_words_list]
-emotion_words_selected = [emotion_words_list[i] for i in range(len(emotion_words_list)) if emotion_words_times[i] > 0]
-
-
-# Select emotion words from
-def select_from_lexicon(raw_review, lexicon):
-    return None
-
-
+# r = Rake(stop_words, string.punctuation)
+# all_keywords = list()
+# all_keywords_split = list()
+# for i in range(sample_size):
+#     words = [i.lower() for i in word_tokenize(df["text"][i])]
+#     sentence_re_stopwords = " ".join([token for token in words if token not in set(string.punctuation)])
+#     r.extract_keywords_from_text(sentence_re_stopwords)
+#     phrases = r.get_ranked_phrases()
+#     scores = r.get_ranked_phrases_with_scores()
+#     all_keywords.append([scores[i] for i in range(len(phrases)) if scores[i][0] > 1])
+#     all_keywords_split.append(
+#         [(scores[i][0], nltk.word_tokenize(phrases[i])) for i in range(len(phrases)) if scores[i][0] > 1])
+#
+# import collections
+#
+# all_keywords_each = list()
+# for i in all_keywords_split:
+#     for j in i:
+#         for l in range(len(j[1])):
+#             if j[1][l].isalpha():
+#                 all_keywords_each.append(j[1][l])
+#
+# keywords_in_each_review = list()
+# for i in all_keywords_split:
+#     tmp = list()
+#     score_list = [i[k][0] for k in range(len(i))]
+#     for index, j in enumerate(i):
+#         for l in range(len(j[1])):
+#             if j[1][l].isalpha():
+#                 tmp.append((score_list[index], j[1][l]))
+#     keywords_in_each_review.append(tmp)
+#
+# keywords_in_each_review_small = collections.Counter(all_keywords_each).most_common()[0:19890]
+#
+# # extract emotion words from keywords
+# emotion_words_times = [all_keywords_each.count(i) for i in emotion_words_list]
+# emotion_words_selected = [emotion_words_list[i] for i in range(len(emotion_words_list)) if emotion_words_times[i] > 0]
 
 
 
@@ -127,7 +124,7 @@ vectorizer = CountVectorizer(analyzer="word",
                              stop_words=None,
                              max_features=5000,
                              max_df=0.08,
-                             input=keywords_in_each_review_small,
+                             vocabulary=emotion_words_list,
                              lowercase=True)
 
 
@@ -195,4 +192,6 @@ for i in range(500):
 accuracy = fake_sum / 500
 accuracy
 
-mse_calculation(result, true_test)
+print(mse_calculation(result, true_test))
+end = time.time()
+print(end - start)
