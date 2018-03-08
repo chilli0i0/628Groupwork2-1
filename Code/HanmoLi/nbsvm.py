@@ -93,7 +93,7 @@ n = train.shape[0]
 # parameters are untuned!
 # term frequency–inverse document frequency
 vec = TfidfVectorizer(ngram_range=(1,2), tokenizer=tokenize, analyzer = 'word',
-                       min_df = 3,max_df = 0.9, strip_accents='unicode', use_idf=1,
+                       min_df =90,max_df = 0.9, strip_accents='unicode', use_idf=1,
                       smooth_idf=1, sublinear_tf=1)
 # This creates a sparse matrix with only a small number of non-zero elements
 trn_term_doc = vec.fit_transform(train['text'])
@@ -232,7 +232,7 @@ stars = np.matrix([1, 2, 3, 4, 5]).transpose()
 tmp_preds = preds.sum(1)
 tmp_preds = preds / tmp_preds
 tmp = tmp_preds * stars
-#print("est.stars", mse_calculation(df['stars'], tmp))
+print("est.stars", mse_calculation(df['stars'], tmp))
 #
 ## we multiply each probability with stars
 #tmp = preds * stars
