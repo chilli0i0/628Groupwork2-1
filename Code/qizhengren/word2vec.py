@@ -55,8 +55,6 @@ vectorizer = CountVectorizer(analyzer = "word",   \
                              preprocessor = None, \
                              stop_words = None,   \
                              max_features = 7000) 
-#怎么多加停词
-
 train_data_features = vectorizer.fit_transform(clean_train_reviews)
 
 # Numpy arrays are easy to work with, so convert the result to an 
@@ -255,16 +253,6 @@ def getAvgFeatureVecs(reviews, model, num_features):
 # using the functions we defined above. Notice that we now use stop word
 # removal.
 
-
-
-
-
-
-
-
-
-
-
 clean_train_reviews = []
 for i in range(train_num):
     clean_train_reviews.append(review_to_wordlist(df.iloc[i,2], remove_stopwords=True))
@@ -368,17 +356,22 @@ lm_predict = lm_fit.predict(test_centroids)
 b=mean_squared_error(test.iloc[:,0], lm_predict)
 np.sqrt(b)
 
+#############kmeans for categories
 
 
-
-
-
-
-
-
-
-
-
+from sklearn.cluster import KMeans
+from collections import Counter
+train_kmeans=train1.drop([23794])
+train_cate=train_kmeans.iloc[:,5:]
+kmeans_clustering = KMeans(n_clusters=5, random_state=0).fit(train_cate)
+klabels = kmeans_clustering.labels_
+Counter(klabels)
+from sklearn.preprocessing import OneHotEncoder
+from sklearn import preprocessing
+lb = preprocessing.LabelBinarizer()
+lb.fit(klabels)
+lb.classes_
+cat=lb.transform(klabels)
 
 forest = RandomForestClassifier(n_estimators = 100)
 
@@ -410,9 +403,6 @@ ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=5, id2word = dicti
 print(ldamodel.print_topics(num_topics=3, num_words=3))
 #对于模型来讲，不是很有用，相当于计算了一个变量属于某个主题的概率和参数
 #'-0.340 * "category" + 0.298 * "$M$" + 0.183 * "algebra" + -0.174 * "functor" + -0.168 * "operator"'
-
-
-
 forest = RandomForestClassifier(n_estimators = 100) 
 forest = forest.fit( X_train, y_train )    
 result = forest.predict( X_test )    
