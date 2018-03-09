@@ -20,10 +20,10 @@ There are four documents in this part:
 * Hanmo Li contains:
 * Lixia Yi contains:
 * qizheng ren contains:
-    1. Translation for train and test set.
-    2. Word2vec have four feature creation models.
-    3. NB_bayes+Xgboost contains the final model.
-    4. Output_kaggle transform the result into kaggle submission file.
+1. Translation for train and test set.
+2. Word2vec have four feature creation models.
+3. NB_bayes+Xgboost contains the final model.
+4. Output_kaggle transform the result into kaggle submission file.
 * xjc contains:
 # Plot
 * WordCloud Plot
@@ -33,8 +33,9 @@ There are four documents in this part:
 * PPT1 is for the first week's presentation.
 * PPt2 is for the second week's presentation.
 # Reference
-1. reference1
-2. reference2
+    1. reference1
+    2. reference2
+
 未完待续
 
 
