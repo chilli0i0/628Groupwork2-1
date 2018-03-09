@@ -1,4 +1,3 @@
-# Here include translation;final model,result output script.
 # Contents
     1. Translation for train and test set.
     2. Word2vec have four feature creation models.
