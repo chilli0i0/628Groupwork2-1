@@ -113,13 +113,61 @@ test=pd.read_csv('test_for_xgboost.csv')
 ##train the data
 x_train=train.iloc[:,:5]
 target_train=train.iloc[:,-1]
+
+#time feature and indirect feature
+time_train=pd.read_csv('time matrix.csv')
+time_train=time_train.iloc[:,1:]
+time_test=pd.read_csv('time matrix for test.csv')
+feature_train=pd.read_pickle('simple_features_train.csv')
+feature_test=pd.read_csv('simple_features_test.csv')
+train_new=pd.concat([x_train,time_train,feature_train],axis=1)
+test_new=pd.concat([test,time_test,feature_test],axis=1)
+#fit the model
 import xgboost as xgb
-xgb1=xgb.XGBRegressor(seed=1,max_depth=7,n_estimators=100)
+xgb1=xgb.XGBRegressor(seed=1,max_depth=4,n_estimators=100,min_child_depth=6,gamma=0.3)
 xgb1.fit(x_train,target_train.values.ravel())
 result1=xgb1.predict(test)
 result=pd.DataFrame(result1)
+#print out the result
 result.columns=['result']
 new_data=pd.DataFrame(columns=['Id','Prediction1'])
 new_data['Id'] = range(1,len(result1)+1)
 new_data['Prediction1']=list(result['result'])
-new_data.to_csv('predict_new1.csv',index=False,encoding='utf-8')
+new_data.to_csv('predict_new3.csv',index=False,encoding='utf-8')
+
+#plot the related plots
+from xgboost import plot_tree
+from xgboost import plot_importance
+xgb.to_graphviz(xgb1, num_trees=50, rankdir='LR', **{'size':str(10)})
+plot_importance(xgb1, ax=None, height=0.2, xlim=None, ylim=None, title='Feature importance', xlabel='F score', ylabel='Features', importance_type='weight', max_num_features=None,show_values=True,)
+
+
+#parameters tuning
+'''
+param_test1 = {
+ 'gamma':[i/10.0 for i in range(0,5)]
+}
+gsearch1=GridSearchCV(estimator=XGBRegressor(
+        base_score=0.5,
+        colsample_bylevel=1,
+        colsample_bytree=1,
+        gamma=0,
+        learning_rate=0.1,
+        max_delta_step=0,
+        missing=None,
+        n_estimators=500,
+        nthread=-1,
+        reg_alpha=0,
+        reg_lambda=1,
+        max_depth=4,
+        min_child_weight=6,
+        scale_pos_weight=1,
+        seed=1,
+        subsample=0.8),param_grid=param_test1,scoring='neg_mean_squared_error',cv=2)
+gsearch1.fit(train_sample.iloc[:,:5],train_sample.iloc[:,-1])
+gsearch1.grid_scores_,gsearch1.best_params_,gsearch1.best_score_
+'''
+
+
+
+
