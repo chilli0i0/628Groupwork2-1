@@ -304,3 +304,12 @@ It takes about 30 minutes to run the whole process but the results are quite pro
 * prob*stars 0.8858112279495591
 * max_prob:  0.6605802881697144
 ```
+
+### Mar 8
+```
+vocab = vec.get_feature_names()
+'a' in vocab  # TRUE
+'an' in vocab  # TRUE
+'these' in vocab  # TRUE
+'the' in vocab  # FALSE
+```

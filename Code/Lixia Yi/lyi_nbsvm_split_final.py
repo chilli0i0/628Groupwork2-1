@@ -5,6 +5,7 @@ import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 import time
+from scipy import sparse
 
 start = time.time()
 
@@ -50,7 +51,7 @@ for i in range(5):
     n = train.shape[0]
     # parameters are untuned!
     # term frequency–inverse document frequency
-    vec = TfidfVectorizer(ngram_range=(1,2), tokenizer=tokenize,
+    vec = TfidfVectorizer(ngram_range=(1, 2), tokenizer=tokenize,
                           min_df=3, max_df=0.9, strip_accents='unicode', use_idf=1,
                           smooth_idf=1, sublinear_tf=1)
     # This creates a sparse matrix with only a small number of non-zero elements
@@ -71,7 +72,7 @@ for i in range(5):
     # get model
     def get_mdl(y):
         y = y.values  # array of the values
-        r = np.log(pr(1, y) / pr(0, y))  # likelihood
+        r = sparse.csr_matrix(np.log(pr(1,y) / pr(0,y)))  # likelihood
         m = LogisticRegression(C=4, dual=True)  # logistic regression
         x_nb = x.multiply(r)
         # return a fitted model of x times its likelihood against y and the likelihood

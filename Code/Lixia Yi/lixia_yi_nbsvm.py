@@ -14,6 +14,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 import math
 import time
+from scipy import sparse
 
 start = time.time()
 
@@ -30,18 +31,21 @@ def mse_calculation(target,prediction):
 
 
 
-df = pd.read_csv("/Users/yilixia/Downloads/stat628/lyi_small.csv")
+df = pd.read_csv("/Users/yilixia/Downloads/stat628/train_translation.csv")
 # train = pd.read_csv("/Users/yilixia/Downloads/train_new_cate.csv")
 # test = pd.read_csv("/Users/yilixia/Downloads/test_new_cate.csv")
+end = time.time()
+print("Read Data:", end-start)
 
+start = time.time()
 # random.seed(8102)
 # select train and test samples
-sample_size = 399999
+sample_size = df.shape[0]
 
 sample = random.sample(range(df.shape[0]), sample_size)
 
-test_sample = sample[200000:399998]
-sample = sample[0:199999]
+test_sample = sample[0:773189]
+sample = sample[773190:-1]
 
 # data insight
 # lens = [len(x.split()) for x in df.text]
@@ -76,7 +80,7 @@ n = train.shape[0]
 # parameters are untuned!
 # term frequency–inverse document frequency
 vec = TfidfVectorizer(ngram_range=(1, 2), tokenizer=tokenize,
-                      min_df=3, max_df=0.9, strip_accents='unicode', use_idf=1,
+                      min_df=0.0003, max_df=0.9, strip_accents='unicode', use_idf=1,
                       smooth_idf=1, sublinear_tf=1)
 # This creates a sparse matrix with only a small number of non-zero elements
 trn_term_doc = vec.fit_transform(train['text'])
@@ -94,7 +98,7 @@ test_x = test_term_doc
 
 def get_mdl(y):
     y = y.values
-    r = np.log(pr(1,y) / pr(0,y))
+    r = sparse.csr_matrix(np.log(pr(1, y) / pr(0, y)))
     m = LogisticRegression(C=4, dual=True)
     x_nb = x.multiply(r)
     return m.fit(x_nb, y), r
