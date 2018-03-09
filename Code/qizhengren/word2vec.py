@@ -407,15 +407,3 @@ forest = RandomForestClassifier(n_estimators = 100)
 forest = forest.fit( X_train, y_train )    
 result = forest.predict( X_test )    
 output = pd.DataFrame( data={"id":Y_train, "sentiment":result} )    
-
-
-
-
-
-
-
-
-
-
-
-
