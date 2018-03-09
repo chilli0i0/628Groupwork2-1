@@ -6,11 +6,11 @@ ddd@wisc.edu|qren25@wisc.edu|abc@wisc.edu|kkk@wisc.edu
 
 
 # Contents
-    * Introduction
-    * Code
-    * Plot
-    * Ipython Notebook
-    * Reference
+* Introduction
+* Code
+* Plot
+* Ipython Notebook
+* Reference
 
 # Introduction
 This project is the second module of UW-Madison Spring2018-STAT628.
