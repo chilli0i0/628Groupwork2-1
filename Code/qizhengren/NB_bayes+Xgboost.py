@@ -124,8 +124,10 @@ train_new=pd.concat([x_train,time_train,feature_train],axis=1)
 test_new=pd.concat([test,time_test,feature_test],axis=1)
 #fit the model
 import xgboost as xgb
-xgb1=xgb.XGBRegressor(seed=1,max_depth=4,n_estimators=100,min_child_depth=6,gamma=0.3)
-xgb1.fit(x_train,target_train.values.ravel())
+xgb1=xgb.XGBRegressor(seed=1,max_depth=4,n_estimators=100,
+                      min_child_depth=6,gamma=0.3,colsample_bytree= 0.8,
+                      subsample=0.6)
+xgb1.fit(train_new,target_train.values.ravel())
 result1=xgb1.predict(test)
 result=pd.DataFrame(result1)
 #print out the result
@@ -133,7 +135,7 @@ result.columns=['result']
 new_data=pd.DataFrame(columns=['Id','Prediction1'])
 new_data['Id'] = range(1,len(result1)+1)
 new_data['Prediction1']=list(result['result'])
-new_data.to_csv('predict_new3.csv',index=False,encoding='utf-8')
+new_data.to_csv('predict_new4.csv',index=False,encoding='utf-8')
 
 #plot the related plots
 from xgboost import plot_tree
@@ -166,8 +168,29 @@ gsearch1=GridSearchCV(estimator=XGBRegressor(
         subsample=0.8),param_grid=param_test1,scoring='neg_mean_squared_error',cv=2)
 gsearch1.fit(train_sample.iloc[:,:5],train_sample.iloc[:,-1])
 gsearch1.grid_scores_,gsearch1.best_params_,gsearch1.best_score_
+
+xgb1=xgb.XGBRegressor(seed=1,max_depth=4,n_estimators=100,
+                      min_child_depth=6,gamma=0.3,colsample_bytree= 0.8,
+                      subsample=0.6)
+xgb1.fit(train_new.iloc[:1000000,:],target_train.iloc[:1000000].values.ravel())
+result1=xgb1.predict(test_new)
+result=pd.DataFrame(result1)
+#print out the result
+result.columns=['result']
+new_data=pd.DataFrame(columns=['Id','Prediction1'])
+new_data['Id'] = range(1,len(result1)+1)
+new_data['Prediction1']=list(result['result'])
+new_data.to_csv('predict_new6.csv',index=False,encoding='utf-8')
+
+from sklearn.linear_model import LinearRegression
+lm = LinearRegression(fit_intercept=True, normalize=True, copy_X=True, n_jobs=1)
+lm_fit = lm.fit(train_new,target_train.values.ravel())
+lm_predict = lm_fit.predict( test_new )    
+result=pd.DataFrame(lm_predict)
+#print out the result
+result.columns=['result']
+new_data=pd.DataFrame(columns=['Id','Prediction1'])
+new_data['Id'] = range(1,len(result1)+1)
+new_data['Prediction1']=list(result['result'])
+new_data.to_csv('predict_new7.csv',index=False,encoding='utf-8')
 '''
-
-
-
-
