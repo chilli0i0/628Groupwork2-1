@@ -15,7 +15,7 @@ hli556@wisc.edu|qren25@wisc.edu|jxu354@wisc.edu|kkk@wisc.edu
 # <a id='Introduction'></a>Introduction
 * This project is the second module of UW-Madison Spring2018-STAT628.
 * The aim is to predict the ratings of Yelp Data.
-* The data is from Yelp Restaurant Comments data from Yelp DataSet Challenge, train set has over 150 million observations.
+* The data is from from Yelp DataSet Challenge (restaurant only), train set has over 150 million observations.
 # <a id='Code'></a>Code
 There are four documents in this part:
 * **Hanmo Li contains:**
