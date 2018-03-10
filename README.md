@@ -2,7 +2,7 @@
 
 Hanmo Li| Qizheng Ren| Jiacheng Xu|Lixia Yi
 --------|------------|------------|---------
-hli556@wisc.edu|qren25@wisc.edu|abc@wisc.edu|kkk@wisc.edu
+hli556@wisc.edu|qren25@wisc.edu|jxu354@wisc.edu|kkk@wisc.edu
 
 
 # Contents
