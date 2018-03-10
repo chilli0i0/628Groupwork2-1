@@ -2,7 +2,7 @@
 
 Hanmo Li| Qizheng Ren| Jiacheng Xu|Lixia Yi
 --------|------------|------------|---------
-hli556@wisc.edu|qren25@wisc.edu|jxu354@wisc.edu|kkk@wisc.edu
+hli556@wisc.edu|qren25@wisc.edu|jxu354@wisc.edu|lyi28@wisc.edu
 
 
 # Contents
@@ -20,6 +20,8 @@ hli556@wisc.edu|qren25@wisc.edu|jxu354@wisc.edu|kkk@wisc.edu
 There are four documents in this part:
 * **Hanmo Li contains:**
 * **Lixia Yi contains:**
+    1. Testing on work of Hanmo Li and Qizheng Ren.
+    2. Implementations of NBSVM
 * **qizheng ren contains:**
     1. Translation for train and test set.
     2. Word2vec have four feature creation models.
