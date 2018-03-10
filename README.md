@@ -36,6 +36,7 @@ There are four documents in this part:
 # <a id='Plot'></a>Plot
 * WordCloud Plot
 * XGBoost Feature Importance Plot
+* Timeline Plots
 # <a id='I'></a>Ipython Notebook
 * The ipython notebook gives the summary of all the related works.
 * PPT1 is for the first week's presentation.
