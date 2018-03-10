@@ -6,13 +6,13 @@ hli556@wisc.edu|qren25@wisc.edu|jxu354@wisc.edu|kkk@wisc.edu
 
 
 # Contents
-* [Introduction](Introduction)
+* [Introduction](#Introduction)
 * [Code](#Code)
-* Plot
-* Ipython Notebook
-* Reference
+* [Plot](#Plot)
+* [Ipython Notebook](#I)
 
-# Introduction
+
+# <a id='Introduction'></a>Introduction
 * This project is the second module of UW-Madison Spring2018-STAT628.
 * The aim is to predict the ratings of Yelp Data.
 # Code
@@ -32,6 +32,4 @@ There are four documents in this part:
 * The ipython notebook gives the summary of all the related works.
 * PPT1 is for the first week's presentation.
 * PPt2 is for the second week's presentation.
-# Reference
-    1. reference1
-    2. reference2
+
