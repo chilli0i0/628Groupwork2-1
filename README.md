@@ -15,7 +15,7 @@ hli556@wisc.edu|qren25@wisc.edu|jxu354@wisc.edu|kkk@wisc.edu
 # <a id='Introduction'></a>Introduction
 * This project is the second module of UW-Madison Spring2018-STAT628.
 * The aim is to predict the ratings of Yelp Data.
-# Code
+# <a id='Code'></a>Code
 There are four documents in this part:
 * Hanmo Li contains:
 * Lixia Yi contains:
@@ -25,10 +25,10 @@ There are four documents in this part:
     3. NB_bayes+Xgboost contains the final model.
     4. Output_kaggle transform the result into kaggle submission file.
 * xjc contains:
-# Plot
+# <a id='Plot'></a>Plot
 * WordCloud Plot
 * XGBoost Feature Importance Plot
-# Ipython Notebook
+# <a id='I'></a>Ipython Notebook
 * The ipython notebook gives the summary of all the related works.
 * PPT1 is for the first week's presentation.
 * PPt2 is for the second week's presentation.
