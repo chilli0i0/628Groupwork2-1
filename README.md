@@ -19,13 +19,21 @@ hli556@wisc.edu|qren25@wisc.edu|jxu354@wisc.edu|lyi28@wisc.edu
 # <a id='Code'></a>Code
 There are four documents in this part:
 * **Hanmo Li contains:**
-    1. data_clean: Tokenize the comments and creat the matrix of words frequency
+
+    1. data_clean: Tokenize the comments and creat the matrix of words frequency
+    
     2. feature_seleciton: select features from reviews and other variables
+    
     3. keras_LSTM: implementing the LSTM algorithm
+    
     4. model_construction: conduct many machine learning algorithms using the sklearn package
+    
     5. nbsvm: implement NBSVM algorithm and divid the algorithm into trainning and prediction parts
+    
     6. vader_lexicon: emotion words and their scores ranging from -4 to 4
+    
     7. word2vec: copy from qizheng ren's folder
+    
 * **Lixia Yi contains:**
     1. Testing on work of Hanmo Li and Qizheng Ren.
     2. Implementations of NBSVM
