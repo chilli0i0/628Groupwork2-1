@@ -23,6 +23,7 @@ There are four documents in this part:
     1. Translation for train and test set.
     2. Word2vec have four feature creation models.
     3. NB_bayes+Xgboost contains the final model.
+    5. Parameters tuning contains the XGBoost tuning precedure.
     4. Output_kaggle transform the result into kaggle submission file.
 * xjc contains:
 # <a id='Plot'></a>Plot
