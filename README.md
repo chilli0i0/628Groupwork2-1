@@ -50,5 +50,5 @@ There are four documents in this part:
 # <a id='I'></a>Ipython Notebook
 * The ipython notebook gives the summary of all the related works.
 * PPT1 is for the first week's presentation.
-* PPt2 is for the second week's presentation.
+* PPT2 is for the second week's presentation.
 
