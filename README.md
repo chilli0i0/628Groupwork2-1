@@ -56,7 +56,7 @@ There are four documents in this part:
 * WordCloud Plot
 * XGBoost Feature Importance Plot
 * RMSE Plots for online and Offline
-* Timeline Plots for models RMSE we tried.
+* Timeline Plots for models' RMSE we tried.
 # <a id='I'></a>Ipython Notebook
 * The ipython notebook gives the summary of all the related works.
 * PPT1 is for the first week's presentation.
