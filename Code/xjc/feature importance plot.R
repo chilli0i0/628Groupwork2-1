@@ -14,7 +14,7 @@ ggplot(data=importance, aes(x=name, y=score))+
   geom_bar(stat="identity",width = 0.8,fill="steelblue")+ xlab("Features") +ylab("F Score")+ 
   coord_flip() +
   #geom_text(aes(label=score), position = position_stack(vjust = 1.1), size=3)
-  ggtitle("Feature Importance")+
+  ggtitle("Feature Importance")+theme(plot.title = element_text(hjust = 0.5))
   theme_gray()
 
 ggsave("feature importance.png")              
