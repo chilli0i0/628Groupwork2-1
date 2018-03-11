@@ -1,4 +1,4 @@
-df = data.frame(Method = c("NB","DT","K-NN","Logistic Regression","GBDT","Linear Regression","XGBoot","LSTM","NBSVM"),
+df = data.frame(Method = c("NB","DT","K-NN","Logistic Regression","GBDT","Linear Regression","XGBoost","LSTM","NBSVM"),
                 RMSE = c(1.36,1.21,1.20,0.96,0.85,0.79,0.78,0.76,0.67))
 df2 = data.frame(Method = c("NBSVM","NBSVM + XGBoost","NBSVM + Linear Regression","NBSVM+XGBoost+EF","NBSVM+XGBoost+EF+PT"),
                  RMSE = c(0.68886,0.59237,0.61860,0.58263,0.58016))
@@ -15,18 +15,17 @@ ggplot(data=df, aes(x=Method, y=RMSE,group=1)) +
   geom_point(size = 2)+
   ggtitle("Offline RMSE")+
   labs(x="Method",y="RMSE")+
+  theme_economist() +
   theme(
-    plot.title = element_text(color="black", size=35,family="Arial",face="bold",hjust = 0.5),
-    axis.title.x = element_text(color="black", family="Arial",face="bold",size=28),
-    axis.title.y = element_text(color="black",family="Arial", face="bold",size=28),
-    axis.text.x = element_text(color="black", size=18),
-    axis.text.y = element_text(color="black", size=18),
-    plot.background = element_rect(fill = "white"),
-    panel.background = element_rect(fill = "slategray2", colour = "white",size = 0.5, linetype = "solid"),
-    panel.grid.major.y = element_line(size = 0.5, linetype = 'solid',colour = "white"), 
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor  = element_blank()
-         )
+    axis.text.x=element_text(colour="black", size = 18),
+    axis.text.y=element_text(colour="black", size = 18),
+    axis.title.x = element_text(color="black",face="bold",size=28),
+    axis.title.y = element_text(color="black", face="bold",size=28),
+    panel.grid.major = element_line(colour = "#d3d3d3"),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank(), panel.background = element_blank(),
+    plot.title = element_text(family = "Arial",hjust = 0.5,face="bold",size = 35),
+    text=element_text(family="Arial"))
 dev.off()
 
 
@@ -37,16 +36,15 @@ ggplot(data=df2, aes(x=Method, y=RMSE,group=1)) +
   geom_point(size = 2)+
   ggtitle("Online RMSE")+
   labs(x="Method",y="RMSE")+
+  theme_economist() +
   theme(
-    plot.title = element_text(color="black", size=35,family="Arial",face="bold",hjust = 0.5),
-    axis.title.x = element_text(color="black", family="Arial",face="bold",size=28),
-    axis.title.y = element_text(color="black",family="Arial", face="bold",size=28),
-    axis.text.x = element_text(color="black", size=18),
-    axis.text.y = element_text(color="black", size=18),
-    plot.background = element_rect(fill = "white"),
-    panel.background = element_rect(fill = "slategray2", colour = "white",size = 0.5, linetype = "solid"),
-    panel.grid.major.y = element_line(size = 0.5, linetype = 'solid',colour = "white"), 
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor  = element_blank()
-  )
+    axis.text.x=element_text(colour="black", size = 18),
+    axis.text.y=element_text(colour="black", size = 18),
+    axis.title.x = element_text(color="black",face="bold",size=28),
+    axis.title.y = element_text(color="black", face="bold",size=28),
+    panel.grid.major = element_line(colour = "#d3d3d3"),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank(), panel.background = element_blank(),
+    plot.title = element_text(family = "Arial",hjust = 0.5,face="bold",size = 35),
+    text=element_text(family="Arial"))
 dev.off()
