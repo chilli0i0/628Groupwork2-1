@@ -64,3 +64,4 @@ There are four documents in this part:
 * PPT1 is for the first week's presentation.
 * PPT2 is for the second week's presentation.
 
+PS: Data files were not included in the Github repo since they were to large. We have them in our Google Drive and could provide them upon request.
