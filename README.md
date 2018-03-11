@@ -30,9 +30,7 @@ There are four documents in this part:
     
     5. nbsvm: implement NBSVM algorithm and divid the algorithm into trainning and prediction parts
     
-    6. vader_lexicon: emotion words and their scores ranging from -4 to 4
-    
-    7. word2vec: copy from qizheng ren's folder
+    6. word2vec: copy from qizheng ren's folder
     
 * **Lixia Yi contains:**
     1. Testing on work of Hanmo Li and Qizheng Ren.
